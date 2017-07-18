@@ -6,6 +6,7 @@
 #include <cmath>
 #include <QPainter>
 #include <QDateTime>
+#include <QApplication>
 
 enum
 {
