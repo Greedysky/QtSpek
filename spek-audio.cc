@@ -193,7 +193,7 @@ AudioFileImpl::AudioFileImpl(
     this->packet.data = nullptr;
     this->packet.size = 0;
     this->offset = 0;
-    this->frame = av_frame_alloc();
+    this->frame = avcodec_alloc_frame();
     this->buffer_len = 0;
     this->buffer = nullptr;
     this->frames_per_interval = 0;
@@ -207,13 +207,13 @@ AudioFileImpl::~AudioFileImpl()
         av_freep(&this->buffer);
     }
     if (this->frame) {
-        av_frame_free(&this->frame);
+        avcodec_free_frame(&this->frame);
     }
     if (this->packet.data) {
         this->packet.data -= this->offset;
         this->packet.size += this->offset;
         this->offset = 0;
-        av_packet_unref(&this->packet);
+        av_free_packet(&this->packet);
     }
     if (this->format_context) {
         if (this->audio_stream >= 0) {
@@ -250,7 +250,7 @@ int AudioFileImpl::read()
 
     for (;;) {
         while (this->packet.size > 0) {
-            av_frame_unref(this->frame);
+//            avcodec_free_frame(&this->frame);
             auto codec_context = this->format_context->streams[this->audio_stream]->codec;
             int got_frame = 0;
             int len = avcodec_decode_audio4(codec_context, this->frame, &got_frame, &this->packet);
@@ -318,7 +318,7 @@ int AudioFileImpl::read()
             this->packet.data -= this->offset;
             this->packet.size += this->offset;
             this->offset = 0;
-            av_packet_unref(&this->packet);
+            av_free_packet(&this->packet);
         }
 
         int res = 0;
@@ -326,7 +326,7 @@ int AudioFileImpl::read()
             if (this->packet.stream_index == this->audio_stream) {
                 break;
             }
-            av_packet_unref(&this->packet);
+            av_free_packet(&this->packet);
         }
         if (res < 0) {
             // End of file or error.

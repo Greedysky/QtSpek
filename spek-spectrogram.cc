@@ -41,7 +41,7 @@ SpekSpectrogram::SpekSpectrogram(QWidget *parent) :
     window_function(WINDOW_DEFAULT),
     duration(0.0),
     sample_rate(0),
-    palette(PALETTE_DEFAULT),
+    palette(PALETTE_SPECTRUM),
     prev_width(-1),
     fft_bits(FFT_BITS),
     urange(URANGE),

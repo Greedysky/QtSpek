@@ -81,7 +81,7 @@ static uint32_t mono(double level)
     return (v << 16) + (v << 8) + v;
 }
 
-uint32_t spek_palette(enum palette palette, double level) {
+uint32_t spek_palette(Palette palette, double level) {
     switch (palette) {
     case PALETTE_SPECTRUM:
         return spectrum(level);

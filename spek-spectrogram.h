@@ -25,7 +25,7 @@ public:
     inline QImage *getPaintImage() { return &image; }
     inline int getURange() const { return urange; }
     inline int getLRange() const { return lrange; }
-    enum palette getPalette() const { return palette; }
+    Palette getPalette() const { return palette; }
 
 private:
     void paintEvent(QPaintEvent *event);
@@ -46,7 +46,7 @@ private:
     QString desc;
     double duration;
     int sample_rate;
-    enum palette palette;
+    Palette palette;
     QImage palette_image;
     QImage image;
     int prev_width;
