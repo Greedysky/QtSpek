@@ -52,7 +52,7 @@ SpekSpectrogram::SpekSpectrogram(QWidget *parent) :
 
 SpekSpectrogram::~SpekSpectrogram()
 {
-//    this->stop();
+    this->stop();
 }
 
 void SpekSpectrogram::open(const QString &path)
@@ -73,6 +73,7 @@ void SpekSpectrogram::paintEvent(QPaintEvent *event)
 void SpekSpectrogram::resizeEvent(QResizeEvent *event)
 {
     QWidget::resizeEvent(event);
+    start();
 }
 
 static QString time_formatter(int unit)
@@ -184,7 +185,7 @@ static void pipeline_cb(int bands, int sample, float *values, void *cb_data)
 {
     SpekSpectrogram *spek = static_cast<SpekSpectrogram*>(cb_data);
     if (sample == -1) {
-        spek->stop();
+//        spek->stop();
         return;
     }
 
