@@ -15,7 +15,7 @@ struct spek_pipeline;
 class SpekSpectrogram : public QWidget
 {
 public:
-    SpekSpectrogram(QWidget *parent = 0);
+    explicit SpekSpectrogram(QWidget *parent = nullptr);
     ~SpekSpectrogram();
 
     void open(const QString& path);
@@ -28,8 +28,8 @@ public:
     Palette getPalette() const { return palette; }
 
 private:
-    void paintEvent(QPaintEvent *event);
-    void resizeEvent(QResizeEvent *event);
+    virtual void paintEvent(QPaintEvent *event) override;
+    virtual void resizeEvent(QResizeEvent *event) override;
 
     void paint(QPainter *dc);
     void create_palette();
@@ -53,7 +53,6 @@ private:
     int fft_bits;
     int urange;
     int lrange;
-
 
 };
 

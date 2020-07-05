@@ -2,6 +2,65 @@
 #include <qmath.h>
 #include "spek-palette.h"
 
+#include <QColor>
+#include <QVector>
+
+#define GRADIENT_TABLE_SIZE 256
+
+static bool globalTableInit = false;
+static uint32_t globalTableGolors[GRADIENT_TABLE_SIZE];
+static QVector<QColor> globalGolors = { QColor(0, 0, 0),
+                                        QColor(0, 32, 100),
+                                        QColor(0, 120, 160),
+                                        QColor(128, 255, 120),
+                                        QColor(255, 255, 0),
+                                        QColor(255, 128, 0),
+                                        QColor(255, 0, 0)
+                                      };
+
+void createGradientTable()
+{
+    int numbers = 6;
+    for(int i = 0; i < GRADIENT_TABLE_SIZE; i++)
+    {
+        double position = (double)i/GRADIENT_TABLE_SIZE;
+        /* if position > 1 then we have repetition of colors it maybe useful    */
+        if(position > 1.0)
+        {
+            if(position - int(position) == 0.0)
+            {
+                position = 1.0;
+            }
+            else
+            {
+                position = position - int(position);
+            }
+        }
+
+        const double m = numbers * position;
+        const int n = (int)m; // integer of m
+        const double f = m - n;  // fraction of m
+
+        globalTableGolors[i] = 0xFF0000;
+        if(n < numbers)
+        {
+            globalTableGolors[i] = ((uint32_t)((globalGolors[n].red()) + f * ((globalGolors[n+1].red()) - (globalGolors[n].red()))) & 0xFF) << 16 |
+                ((uint32_t)((globalGolors[n].green()) + f * ((globalGolors[n+1].green()) - (globalGolors[n].green()))) & 0xFF) << 8 |
+                ((uint32_t)((globalGolors[n].blue()) + f * ((globalGolors[n+1].blue()) - (globalGolors[n].blue()))) & 0xFF) << 0;
+        }
+        else if(n == numbers)
+        {
+            globalTableGolors[i] = ((uint32_t)(globalGolors[n].red()) & 0xFF) << 16 |
+                ((uint32_t)(globalGolors[n].green()) & 0xFF) << 8 |
+                ((uint32_t)(globalGolors[n].blue()) & 0xFF) << 0;
+        }
+        else
+        {
+            globalTableGolors[i] = 0xFFFFFF;
+        }
+    }
+}
+
 // Modified version of Dan Bruton's algorithm:
 // http://www.physics.sfasu.edu/astro/color/spectra.html
 static uint32_t spectrum(double level)
@@ -42,6 +101,18 @@ static uint32_t spectrum(double level)
     uint32_t gg = (uint32_t) (g * cf + 0.5);
     uint32_t bb = (uint32_t) (b * cf + 0.5);
     return (rr << 16) + (gg << 8) + bb;
+}
+
+uint32_t spectrogram(double level)
+{
+    if(!globalTableInit)
+    {
+        createGradientTable();
+        globalTableInit = true;
+    }
+
+    const int index = qBound(0, int(level * GRADIENT_TABLE_SIZE), GRADIENT_TABLE_SIZE - 1);
+    return globalTableGolors[index];
 }
 
 // The default palette used by SoX and written by Rob Sykes.
@@ -85,6 +156,8 @@ uint32_t spek_palette(Palette palette, double level) {
     switch (palette) {
     case PALETTE_SPECTRUM:
         return spectrum(level);
+    case PALETTE_SPECTROGRAM:
+        return spectrogram(level);
     case PALETTE_SOX:
         return sox(level);
     case PALETTE_MONO:

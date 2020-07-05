@@ -14,8 +14,8 @@ TEMPLATE = app
 QMAKE_CXXFLAGS += -std=c++11
 
 #change to your libav or ffmpeg lib
-INCLUDEPATH += -L"."
-LIBS += -L"./libav/lib" -lavcodec -lavformat -lavutil
+INCLUDEPATH += $$PWD/libav/include
+LIBS += -L"$$PWD/libav/lib" -lavcodec -lavformat -lavutil
 
 SOURCES += main.cpp\
         spek-ruler.cc \
