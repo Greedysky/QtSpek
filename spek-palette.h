@@ -8,6 +8,7 @@ typedef enum palette {
     PALETTE_SPECTROGRAM,
     PALETTE_SOX,
     PALETTE_MONO,
+    PALETTE_COUNT,
     PALETTE_DEFAULT = PALETTE_SPECTROGRAM,
 }Palette;
 

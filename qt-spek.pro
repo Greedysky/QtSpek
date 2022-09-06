@@ -14,8 +14,8 @@ TEMPLATE = app
 QMAKE_CXXFLAGS += -std=c++11
 
 #change to your libav or ffmpeg lib
-INCLUDEPATH += $$PWD/libav/include
-LIBS += -L"$$PWD/libav/lib" -lavcodec -lavformat -lavutil
+INCLUDEPATH += $$PWD/libffmpeg/include
+LIBS += -L"$$PWD/libffmpeg/lib" -lavcodec -lavformat -lavutil -lswresample
 
 SOURCES += main.cpp\
         spek-ruler.cc \
@@ -23,7 +23,8 @@ SOURCES += main.cpp\
         spek-audio.cc \
         spek-fft.cc \
         spek-palette.cc \
-        spek-pipeline.cc
+        spek-pipeline.cc \
+        spek-utils.cc
 
 HEADERS  += \
         spek-audio.h \
@@ -31,4 +32,5 @@ HEADERS  += \
         spek-palette.h \
         spek-pipeline.h \
         spek-ruler.h \
-        spek-spectrogram.h
+        spek-spectrogram.h \
+        spek-utils.h

@@ -1,0 +1,12 @@
+*.user
+*.user.*
+*.aps
+build-*/
+*.*-pre1
+*.autosave
+*.*~
+*.uxf
+*.bak
+Thumbs.db
+ehthumbs.db
+Desktop.ini

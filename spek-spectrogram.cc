@@ -1,11 +1,13 @@
 #include "spek-audio.h"
 #include "spek-fft.h"
 #include "spek-ruler.h"
+#include "spek-utils.h"
 #include "spek-spectrogram.h"
 
 #include <cmath>
 #include <QPainter>
 #include <QDateTime>
+#include <QKeyEvent>
 #include <QApplication>
 
 enum
@@ -60,6 +62,74 @@ void SpekSpectrogram::open(const QString &path)
     this->path = path;
     this->stream = 0;
     this->channel = 0;
+    start();
+}
+
+void SpekSpectrogram::keyPressEvent(QKeyEvent *event)
+{
+    switch(event->key()) {
+    case Qt::Key_C:
+        if (this->channels) {
+            if(event->modifiers() == Qt::NoModifier) {   // 'c'
+                this->channel = (this->channel + 1) % this->channels;
+            } else if(event->modifiers() == Qt::ShiftModifier) {   // 'C'
+                this->channel = (this->channel - 1 + this->channels) % this->channels;
+            }
+        }
+        break;
+    case Qt::Key_F:
+        if(event->modifiers() == Qt::NoModifier) {   // 'f'
+            this->window_function = (enum window_function) ((this->window_function + 1) % WINDOW_COUNT);
+        } else if(event->modifiers() == Qt::ShiftModifier) {   // 'F'
+            this->window_function = (enum window_function) ((this->window_function - 1 + WINDOW_COUNT) % WINDOW_COUNT);
+        }
+        break;
+    case Qt::Key_L:
+        if(event->modifiers() == Qt::NoModifier) {   // 'l'
+            this->lrange = spek_min(this->lrange + 1, this->urange - 1);
+        } else if(event->modifiers() == Qt::ShiftModifier) {   // 'L'
+            this->lrange = spek_max(this->lrange - 1, MIN_RANGE);
+        }
+        break;
+    case Qt::Key_P:
+        if(event->modifiers() == Qt::NoModifier) {   // 'p'
+            this->palette = (enum palette) ((this->palette + 1) % PALETTE_COUNT);
+            this->create_palette();
+        } else if(event->modifiers() == Qt::ShiftModifier) {   // 'P'
+            this->palette = (enum palette) ((this->palette - 1 + PALETTE_COUNT) % PALETTE_COUNT);
+            this->create_palette();
+        }
+        break;
+    case Qt::Key_S:
+        if (this->streams) {
+            if(event->modifiers() == Qt::NoModifier) {   // 's'
+                this->stream = (this->stream + 1) % this->streams;
+            } else if(event->modifiers() == Qt::ShiftModifier) {   // 'S'
+                this->stream = (this->stream - 1 + this->streams) % this->streams;
+            }
+        }
+        break;
+    case Qt::Key_U:
+        if(event->modifiers() == Qt::NoModifier) {   // 'u'
+            this->urange = spek_min(this->urange + 1, MAX_RANGE);
+        } else if(event->modifiers() == Qt::ShiftModifier) {   // 'U'
+            this->urange = spek_max(this->urange - 1, this->lrange + 1);
+        }
+        break;
+    case Qt::Key_W:
+        if(event->modifiers() == Qt::NoModifier) {   // 'w'
+            this->fft_bits = spek_min(this->fft_bits + 1, MAX_FFT_BITS);
+            this->create_palette();
+        } else if(event->modifiers() == Qt::ShiftModifier) {   // 'W'
+            this->fft_bits = spek_max(this->fft_bits - 1, MIN_FFT_BITS);
+            this->create_palette();
+        }
+        break;
+    default:
+        event->ignore();
+        return;
+    }
+
     start();
 }
 
