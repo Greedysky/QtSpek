@@ -28,9 +28,9 @@ public:
     Palette getPalette() const { return palette; }
 
 private:
-    virtual void keyPressEvent(QKeyEvent *event) override;
-    virtual void paintEvent(QPaintEvent *event) override;
-    virtual void resizeEvent(QResizeEvent *event) override;
+    virtual void keyPressEvent(QKeyEvent *event) override final;
+    virtual void paintEvent(QPaintEvent *event) override final;
+    virtual void resizeEvent(QResizeEvent *event) override final;
 
     void paint(QPainter *dc);
     void create_palette();

@@ -69,7 +69,7 @@ void SpekSpectrogram::keyPressEvent(QKeyEvent *event)
 {
     switch(event->key()) {
     case Qt::Key_C:
-        if (this->channels) {
+        if(this->channels) {
             if(event->modifiers() == Qt::NoModifier) {   // 'c'
                 this->channel = (this->channel + 1) % this->channels;
             } else if(event->modifiers() == Qt::ShiftModifier) {   // 'C'
@@ -101,7 +101,7 @@ void SpekSpectrogram::keyPressEvent(QKeyEvent *event)
         }
         break;
     case Qt::Key_S:
-        if (this->streams) {
+        if(this->streams) {
             if(event->modifiers() == Qt::NoModifier) {   // 's'
                 this->stream = (this->stream + 1) % this->streams;
             } else if(event->modifiers() == Qt::ShiftModifier) {   // 'S'
@@ -254,7 +254,7 @@ void SpekSpectrogram::paint(QPainter *dc)
 static void pipeline_cb(int bands, int sample, float *values, void *cb_data)
 {
     SpekSpectrogram *spek = static_cast<SpekSpectrogram*>(cb_data);
-    if (sample == -1) {
+    if(sample == -1) {
 //        spek->stop();
         return;
     }
