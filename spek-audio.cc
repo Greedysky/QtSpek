@@ -55,8 +55,7 @@ private:
 
     int channel;
 
-    AVPacket packet;
-    int offset;
+    AVPacket *packet;
     AVFrame *frame;
     int buffer_len;
     float *buffer;
@@ -69,13 +68,17 @@ private:
 
 Audio::Audio()
 {
+#if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(58, 10, 100) //ffmpeg-3.5
     av_register_all();
+#endif
 }
 
 Audio::~Audio()
 {
+#if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(58, 10, 100) //ffmpeg-3.5
     // This prevents a memory leak.
     av_lockmgr_register(nullptr);
+#endif
 }
 
 std::unique_ptr<AudioFile> Audio::open(const std::string& file_name, int stream)
@@ -113,7 +116,7 @@ std::unique_ptr<AudioFile> Audio::open(const std::string& file_name, int stream)
 
     AVStream *avstream = nullptr;
     AVCodecParameters *codecpar = nullptr;
-    AVCodec *codec = nullptr;
+    const AVCodec *codec = nullptr;
     if (!error) {
         avstream = format_context->streams[audio_stream];
         codecpar = avstream->codecpar;
@@ -153,7 +156,11 @@ std::unique_ptr<AudioFile> Audio::open(const std::string& file_name, int stream)
         if (bits_per_sample) {
             bit_rate = 0;
         }
+#if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(59, 37, 100) //ffmpeg-5.1
+        channels = codecpar->ch_layout.nb_channels;
+#else
         channels = codecpar->channels;
+#endif
 
         if (avstream->duration != AV_NOPTS_VALUE) {
             duration = avstream->duration * av_q2d(avstream->time_base);
@@ -211,10 +218,9 @@ AudioFileImpl::AudioFileImpl(
     sample_rate(sample_rate),
     bits_per_sample(bits_per_sample), streams(streams), channels(channels), duration(duration)
 {
-    av_init_packet(&this->packet);
-    this->packet.data = nullptr;
-    this->packet.size = 0;
-    this->offset = 0;
+    this->packet = av_packet_alloc();
+    this->packet->data = nullptr;
+    this->packet->size = 0;
     this->frame = av_frame_alloc();
     this->buffer_len = 0;
     this->buffer = nullptr;
@@ -231,11 +237,8 @@ AudioFileImpl::~AudioFileImpl()
     if (this->frame) {
         av_frame_free(&this->frame);
     }
-    if (this->packet.data) {
-        this->packet.data -= this->offset;
-        this->packet.size += this->offset;
-        this->offset = 0;
-        av_packet_unref(&this->packet);
+    if (this->packet) {
+        av_packet_free(&this->packet);
     }
     if (this->codec_context) {
         avcodec_free_context(&codec_context);
@@ -264,41 +267,63 @@ void AudioFileImpl::start(int channel, int samples)
 int AudioFileImpl::read()
 {
     if (!!this->error) {
+        // Stop on error.
         return -1;
     }
 
+    // This runs a state machine to allow incremental calls to decode and return the next chunk of samples.
+    // FFmpeg docs: https://ffmpeg.org/doxygen/5.1/group__lavc__encdec.html
     for (;;) {
-        while (this->packet.size > 0) {
-            av_frame_unref(this->frame);
-            int got_frame = 0;
-            int len = avcodec_decode_audio4(this->codec_context, this->frame, &got_frame, &this->packet
-            );
-            if (len < 0) {
-                // Error, skip the frame.
+        if (!this->packet) {
+            // Finished decoding.
+            return 0;
+        }
+
+        // Read the next packet.
+        int ret = 0;
+        while ((ret = av_read_frame(this->format_context, this->packet)) >= 0) {
+            if (this->packet->stream_index == this->audio_stream) {
                 break;
             }
-            this->packet.data += len;
-            this->packet.size -= len;
-            this->offset += len;
-            if (!got_frame) {
-                // No data yet, get more frames.
-                continue;
-            }
-            const int samples = m_frame->nb_samples;
-            // Occasionally the frame has no samples, move on to the next one.
+            av_packet_unref(this->packet);
+        }
+
+        if (ret < 0) {
+            // End of file or error, empty the packet to flush the decoder.
+            av_packet_unref(this->packet);
+            av_packet_free(&this->packet);
+            this->packet = nullptr;
+        }
+
+        ret = avcodec_send_packet(this->codec_context, this->packet);
+        if (this->packet) {
+            av_packet_unref(this->packet);
+        }
+
+        if (ret < 0) {
+            // Skip the packet.
+            continue;
+        }
+
+        // The packet can contain multiple frames, read all of them.
+        int total_samples = 0;
+        while ((ret = avcodec_receive_frame(this->codec_context, this->frame)) >= 0) {
+            const int samples = this->frame->nb_samples;
             if (samples == 0) {
+                // Occasionally the frame has no samples, move on to the next one.
+                av_frame_unref(this->frame);
                 continue;
             }
-            // We have data, return it and come back for more later.
-            if (samples > this->buffer_len) {
+            // We have the data, normalise and write to the buffer.
+            if ((total_samples + samples) > this->buffer_len) {
                 this->buffer = static_cast<float*>(
-                    av_realloc(this->buffer, samples * sizeof(float))
+                    av_realloc(this->buffer, (total_samples + samples) * sizeof(float))
                 );
-                this->buffer_len = samples;
+                this->buffer_len = total_samples + samples;
             }
 
             AVSampleFormat format = static_cast<AVSampleFormat>(this->frame->format);
-            int is_planar = av_sample_fmt_is_planar(format);
+            const int is_planar = av_sample_fmt_is_planar(format);
             for (int sample = 0; sample < samples; ++sample) {
                 uint8_t *data;
                 int offset;
@@ -333,27 +358,15 @@ int AudioFileImpl::read()
                     value = 0.0f;
                     break;
                 }
-                this->buffer[sample] = value;
+                this->buffer[total_samples + sample] = value;
             }
-            return samples;
-        }
-        if (this->packet.data) {
-            this->packet.data -= this->offset;
-            this->packet.size += this->offset;
-            this->offset = 0;
-            av_packet_unref(&this->packet);
+            total_samples += samples;
+            av_frame_unref(this->frame);
         }
 
-        int res = 0;
-        while ((res = av_read_frame(this->format_context, &this->packet)) >= 0) {
-            if (this->packet.stream_index == this->audio_stream) {
-                break;
-            }
-            av_packet_unref(&this->packet);
+        if (total_samples > 0) {
+            return total_samples;
         }
-        if (res < 0) {
-            // End of file or error.
-            return 0;
-        }
+        // Error during decoding or EOF, skip the packet.
     }
 }
