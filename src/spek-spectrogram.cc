@@ -205,7 +205,11 @@ void SpekSpectrogram::paint(QPainter *dc)
         PACKAGE_NAME
     );
 
+#if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
+    const int package_name_width = QFontMetrics(largeFont).horizontalAdvance(PACKAGE_NAME " ");
+#else
     const int package_name_width = QFontMetrics(largeFont).width(PACKAGE_NAME " ");
+#endif
     dc->setFont(smallFont);
     dc->drawText(
         w - RPAD + GAP + package_name_width,
@@ -382,7 +386,11 @@ static QString trim(QPainter *dc, const QString& s, int length, bool trim_end)
 
     // Check if the entire string fits.
     QFontMetrics ft(dc->font());
+#if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
+    int w = ft.horizontalAdvance(s);
+#else
     int w = ft.width(s);
+#endif
     if(w <= length) {
         return s;
     }
@@ -393,7 +401,11 @@ static QString trim(QPainter *dc, const QString& s, int length, bool trim_end)
     int k = s.length();
     while(k - i > 1) {
         int j = (i + k) / 2;
+#if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
+        w = ft.horizontalAdvance(trim_end ? s.mid(0, j) + fix : fix + s.mid(j));
+#else
         w = ft.width(trim_end ? s.mid(0, j) + fix : fix + s.mid(j));
+#endif
         if(trim_end != (w > length)) {
             i = j;
         } else {

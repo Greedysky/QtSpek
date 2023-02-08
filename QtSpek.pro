@@ -5,6 +5,9 @@
 #-------------------------------------------------
 
 QT += core gui
+equals(QT_MAJOR_VERSION, 4){ #Qt4
+    CONFIG += gcc
+}
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -12,11 +15,36 @@ DESTDIR = $$OUT_PWD/bin
 TEMPLATE = app
 TARGET = spek
 
-QMAKE_CXXFLAGS += -std=c++11
+win32{
+    msvc{
+        CONFIG += c++11
+        !contains(QMAKE_TARGET.arch, x86_64){
+             #support on windows XP
+             QMAKE_LFLAGS_WINDOWS = /SUBSYSTEM:WINDOWS,5.01
+             QMAKE_LFLAGS_CONSOLE = /SUBSYSTEM:CONSOLE,5.01
+        }
+    }
+
+    gcc{
+        equals(QT_MAJOR_VERSION, 6){ #Qt6
+            QMAKE_CXXFLAGS += -std=c++17
+        }else{
+            QMAKE_CXXFLAGS += -std=c++11
+        }
+    }
+}
+
+unix:!mac{
+    equals(QT_MAJOR_VERSION, 6){ #Qt6
+        QMAKE_CXXFLAGS += -std=c++17
+    }else{
+        QMAKE_CXXFLAGS += -std=c++11
+    }
+}
 
 #change to your libav or ffmpeg lib
-INCLUDEPATH += /home/greedysky/qmmp_all/qmmp/extra/gcc/libffmpeg/include
-LIBS += -L/home/greedysky/qmmp_all/qmmp/extra/gcc/libffmpeg/lib -lavcodec -lavformat -lavutil -lswresample
+INCLUDEPATH += $$PWD/../qmmp_all/qmmp/extra/gcc/libffmpeg/include
+LIBS += -L$$PWD/../qmmp_all/qmmp/extra/gcc/libffmpeg/lib -lavcodec -lavformat -lavutil -lswresample
 
 SOURCES += \
     src/main.cpp \
