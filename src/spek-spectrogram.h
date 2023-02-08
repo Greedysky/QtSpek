@@ -1,9 +1,9 @@
 #ifndef SPEKSPECTROGRAM_H
 #define SPEKSPECTROGRAM_H
 
-#include <memory>
 #include <QWidget>
 
+#include "spek.h"
 #include "spek-palette.h"
 #include "spek-pipeline.h"
 
@@ -19,6 +19,8 @@ public:
     ~SpekSpectrogram();
 
     void open(const QString& path);
+    void save(const QString& path);
+
     void start();
     void stop();
 

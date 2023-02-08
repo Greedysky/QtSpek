@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+		<file>help.ico</file>
+		<file>open.ico</file>
+		<file>save.ico</file>
+		<file alias="logo" >spek.png</file>
+    </qresource>
+</RCC>
