@@ -15,22 +15,22 @@
     <message>
         <location filename="../src/spek-preferences-dialog.cc" line="56"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Postavke</translation>
     </message>
     <message>
         <location filename="../src/spek-preferences-dialog.cc" line="59"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Genralno</translation>
     </message>
     <message>
         <location filename="../src/spek-preferences-dialog.cc" line="71"/>
         <source>Language:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Jezik:</translation>
     </message>
     <message>
         <location filename="../src/spek-preferences-dialog.cc" line="86"/>
         <source>(system default)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Postavke</translation>
     </message>
     <message>
         <location filename="../src/spek-preferences-dialog.cc" line="100"/>
@@ -43,12 +43,12 @@
     <message>
         <location filename="../src/spek-window.cc" line="52"/>
         <source>Spek - Acoustic Spectrum Analyser</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Spek - Akustični Analizator Spektra</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="56"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Datoteka</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="57"/>
@@ -70,23 +70,23 @@
     <message>
         <location filename="../src/spek-window.cc" line="62"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Datoteka</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="63"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Postavke</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="65"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Pomoć</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="66"/>
         <location filename="../src/spek-window.cc" line="76"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pomoć</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="67"/>
@@ -96,42 +96,42 @@
     <message>
         <location filename="../src/spek-window.cc" line="101"/>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sve datoteke</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="104"/>
         <source>Audio files</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zvukovne datoteke</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="116"/>
         <source>Open File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Otvori Datoteku</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="125"/>
         <source>PNG images</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">PNG slike</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="130"/>
         <source>Untitled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Neimenovano</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="133"/>
         <source>Save Spectrogram</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Spremi Spektrogram</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="157"/>
         <source>Copyright (c) 2010-2013 Alexander Kojevnikov and contributors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Autorsko Pravo (c) 2010-2013 Alexander Kojevnikov i doprinosioci</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="181"/>
         <source>translator-credits</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Marko Ivanović</translation>
     </message>
 </context>
 </TS>

@@ -105,7 +105,7 @@ void SpekWindow::openClicked()
     filters += " (";
     for (int i = 0; audio_extensions[i]; ++i) {
         if (i) {
-            filters += ";";
+            filters += " ";
         }
 
         filters += "*.";

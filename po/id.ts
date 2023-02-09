@@ -15,22 +15,22 @@
     <message>
         <location filename="../src/spek-preferences-dialog.cc" line="56"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Preferensi</translation>
     </message>
     <message>
         <location filename="../src/spek-preferences-dialog.cc" line="59"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Umum</translation>
     </message>
     <message>
         <location filename="../src/spek-preferences-dialog.cc" line="71"/>
         <source>Language:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bahasa:</translation>
     </message>
     <message>
         <location filename="../src/spek-preferences-dialog.cc" line="86"/>
         <source>(system default)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(bawaan sistem)</translation>
     </message>
     <message>
         <location filename="../src/spek-preferences-dialog.cc" line="100"/>
@@ -75,18 +75,18 @@
     <message>
         <location filename="../src/spek-window.cc" line="63"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Preferensi</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="65"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Bantuan</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="66"/>
         <location filename="../src/spek-window.cc" line="76"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bantuan</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="67"/>
@@ -96,42 +96,42 @@
     <message>
         <location filename="../src/spek-window.cc" line="101"/>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Semua file</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="104"/>
         <source>Audio files</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">File Audio</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="116"/>
         <source>Open File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Buka File</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="125"/>
         <source>PNG images</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gambar PNG</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="130"/>
         <source>Untitled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tidak ada judul</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="133"/>
         <source>Save Spectrogram</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Simpan Spektogram</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="157"/>
         <source>Copyright (c) 2010-2013 Alexander Kojevnikov and contributors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hak Cipta (c) 2010-2013 Alexander Kojevnikov dan para kontributor</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="181"/>
         <source>translator-credits</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tan Rico &lt;riecotan@gmail.com&gt;, 2016</translation>
     </message>
 </context>
 </TS>

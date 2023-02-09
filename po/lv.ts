@@ -15,22 +15,22 @@
     <message>
         <location filename="../src/spek-preferences-dialog.cc" line="56"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Uzstādījumi</translation>
     </message>
     <message>
         <location filename="../src/spek-preferences-dialog.cc" line="59"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pamata</translation>
     </message>
     <message>
         <location filename="../src/spek-preferences-dialog.cc" line="71"/>
         <source>Language:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Valoda:</translation>
     </message>
     <message>
         <location filename="../src/spek-preferences-dialog.cc" line="86"/>
         <source>(system default)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(sistēmas noklusējums)</translation>
     </message>
     <message>
         <location filename="../src/spek-preferences-dialog.cc" line="100"/>
@@ -43,12 +43,12 @@
     <message>
         <location filename="../src/spek-window.cc" line="52"/>
         <source>Spek - Acoustic Spectrum Analyser</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Spek - Akustiskā Spektra Analīze</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="56"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Fails</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="57"/>
@@ -70,23 +70,23 @@
     <message>
         <location filename="../src/spek-window.cc" line="62"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Labot</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="63"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Uzstādījumi</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="65"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Palīdzība</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="66"/>
         <location filename="../src/spek-window.cc" line="76"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Palīdzība</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="67"/>
@@ -96,42 +96,42 @@
     <message>
         <location filename="../src/spek-window.cc" line="101"/>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Visi faili</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="104"/>
         <source>Audio files</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Audio faili</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="116"/>
         <source>Open File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atvērt Failu</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="125"/>
         <source>PNG images</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">PNG attēli</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="130"/>
         <source>Untitled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nenosaukts</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="133"/>
         <source>Save Spectrogram</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Saglablabāt Spektrogrammu</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="157"/>
         <source>Copyright (c) 2010-2013 Alexander Kojevnikov and contributors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Visas tiesības aizsargātas (c) 2010-2013 Aleksandrs Kojevņikovs un atbalstītāji</translation>
     </message>
     <message>
         <location filename="../src/spek-window.cc" line="181"/>
         <source>translator-credits</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Toms Zvīnis - @beigtapel3</translation>
     </message>
 </context>
 </TS>

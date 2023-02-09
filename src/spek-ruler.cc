@@ -18,9 +18,9 @@ SpekRuler::SpekRuler(
 
 void SpekRuler::draw(QPainter &dc)
 {
-    const QFontMetrics f(dc.font());
-    const int w = QtFontWidth(f, sample_label);
-    const int h = f.height();
+    const QFontMetrics ft(dc.font());
+    const int w = QtFontWidth(ft, sample_label);
+    const int h = ft.height();
     const int len = this->pos == TOP || this->pos == BOTTOM ? w : h;
 
     // Select the factor to use, we want some space between the labels.
@@ -55,9 +55,9 @@ void SpekRuler::draw_tick(QPainter &dc, int tick)
     const int value = this->pos == TOP || this->pos == BOTTOM ? tick : this->max_units + this->min_units - tick;
     const double p = this->offset + this->scale * (value - min_units);
 
-    const QFontMetrics f(dc.font());
-    const int w = QtFontWidth(f, sample_label);
-    const int h = -f.height() / 2;
+    const QFontMetrics ft(dc.font());
+    const int w = QtFontWidth(ft, sample_label);
+    const int h = -ft.height() / 2;
 
     if (this->pos == TOP) {
         dc.drawText(this->x + p - w / 2, this->y - GAP - h, label);
