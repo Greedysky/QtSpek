@@ -11,13 +11,12 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
     QString language = SpekPreferences::get().get_language();
-    if(language.isEmpty()) {
+    if (language.isEmpty()) {
         language = QLocale().name();
     }
 
     QTranslator translator;
-    if(!translator.load(app.applicationDirPath() + "/po/" + language + ".ln"))
-    {
+    if (!translator.load(app.applicationDirPath() + "/po/" + language + ".ln")) {
         app.quit();
         return -1;
     }

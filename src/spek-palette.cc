@@ -21,18 +21,13 @@ static QVector<QColor> globalGolors = { QColor(0, 0, 0),
 void createGradientTable()
 {
     int numbers = 6;
-    for(int i = 0; i < GRADIENT_TABLE_SIZE; i++)
-    {
+    for (int i = 0; i < GRADIENT_TABLE_SIZE; i++) {
         double position = (double)i/GRADIENT_TABLE_SIZE;
         /* if position > 1 then we have repetition of colors it maybe useful    */
-        if(position > 1.0)
-        {
-            if(position - int(position) == 0.0)
-            {
+        if (position > 1.0) {
+            if (position - int(position) == 0.0) {
                 position = 1.0;
-            }
-            else
-            {
+            } else {
                 position = position - int(position);
             }
         }
@@ -42,20 +37,15 @@ void createGradientTable()
         const double f = m - n;  // fraction of m
 
         globalTableGolors[i] = 0xFF0000;
-        if(n < numbers)
-        {
+        if (n < numbers) {
             globalTableGolors[i] = ((uint32_t)((globalGolors[n].red()) + f * ((globalGolors[n+1].red()) - (globalGolors[n].red()))) & 0xFF) << 16 |
                 ((uint32_t)((globalGolors[n].green()) + f * ((globalGolors[n+1].green()) - (globalGolors[n].green()))) & 0xFF) << 8 |
                 ((uint32_t)((globalGolors[n].blue()) + f * ((globalGolors[n+1].blue()) - (globalGolors[n].blue()))) & 0xFF) << 0;
-        }
-        else if(n == numbers)
-        {
+        } else if (n == numbers) {
             globalTableGolors[i] = ((uint32_t)(globalGolors[n].red()) & 0xFF) << 16 |
                 ((uint32_t)(globalGolors[n].green()) & 0xFF) << 8 |
                 ((uint32_t)(globalGolors[n].blue()) & 0xFF) << 0;
-        }
-        else
-        {
+        } else {
             globalTableGolors[i] = 0xFFFFFF;
         }
     }
@@ -97,16 +87,15 @@ static uint32_t spectrum(double level)
     cf *= 255.0;
 
     // Pack RGB values into a 32-bit uint.
-    uint32_t rr = (uint32_t) (r * cf + 0.5);
-    uint32_t gg = (uint32_t) (g * cf + 0.5);
-    uint32_t bb = (uint32_t) (b * cf + 0.5);
+    const uint32_t rr = (uint32_t) (r * cf + 0.5);
+    const uint32_t gg = (uint32_t) (g * cf + 0.5);
+    const uint32_t bb = (uint32_t) (b * cf + 0.5);
     return (rr << 16) + (gg << 8) + bb;
 }
 
 uint32_t spectrogram(double level)
 {
-    if(!globalTableInit)
-    {
+    if (!globalTableInit) {
         createGradientTable();
         globalTableInit = true;
     }
@@ -140,19 +129,20 @@ static uint32_t sox(double level)
     }
 
     // Pack RGB values into a 32-bit uint.
-    uint32_t rr = (uint32_t) (r * 255.0 + 0.5);
-    uint32_t gg = (uint32_t) (g * 255.0 + 0.5);
-    uint32_t bb = (uint32_t) (b * 255.0 + 0.5);
+    const uint32_t rr = (uint32_t) (r * 255.0 + 0.5);
+    const uint32_t gg = (uint32_t) (g * 255.0 + 0.5);
+    const uint32_t bb = (uint32_t) (b * 255.0 + 0.5);
     return (rr << 16) + (gg << 8) + bb;
 }
 
 static uint32_t mono(double level)
 {
-    uint32_t v = (uint32_t) (level * 255.0 + 0.5);
+    const uint32_t v = (uint32_t) (level * 255.0 + 0.5);
     return (v << 16) + (v << 8) + v;
 }
 
-uint32_t spek_palette(Palette palette, double level) {
+uint32_t spek_palette(Palette palette, double level)
+{
     switch (palette) {
     case PALETTE_SPECTRUM:
         return spectrum(level);

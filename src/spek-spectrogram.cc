@@ -80,58 +80,58 @@ void SpekSpectrogram::keyPressEvent(QKeyEvent *event)
 {
     switch(event->key()) {
     case Qt::Key_C:
-        if(this->channels) {
-            if(event->modifiers() == Qt::NoModifier) {   // 'c'
+        if (this->channels) {
+            if (event->modifiers() == Qt::NoModifier) {   // 'c'
                 this->channel = (this->channel + 1) % this->channels;
-            } else if(event->modifiers() == Qt::ShiftModifier) {   // 'C'
+            } else if (event->modifiers() == Qt::ShiftModifier) {   // 'C'
                 this->channel = (this->channel - 1 + this->channels) % this->channels;
             }
         }
         break;
     case Qt::Key_F:
-        if(event->modifiers() == Qt::NoModifier) {   // 'f'
+        if (event->modifiers() == Qt::NoModifier) {   // 'f'
             this->window_function = (enum window_function) ((this->window_function + 1) % WINDOW_COUNT);
-        } else if(event->modifiers() == Qt::ShiftModifier) {   // 'F'
+        } else if (event->modifiers() == Qt::ShiftModifier) {   // 'F'
             this->window_function = (enum window_function) ((this->window_function - 1 + WINDOW_COUNT) % WINDOW_COUNT);
         }
         break;
     case Qt::Key_L:
-        if(event->modifiers() == Qt::NoModifier) {   // 'l'
+        if (event->modifiers() == Qt::NoModifier) {   // 'l'
             this->lrange = spek_min(this->lrange + 1, this->urange - 1);
-        } else if(event->modifiers() == Qt::ShiftModifier) {   // 'L'
+        } else if (event->modifiers() == Qt::ShiftModifier) {   // 'L'
             this->lrange = spek_max(this->lrange - 1, MIN_RANGE);
         }
         break;
     case Qt::Key_P:
-        if(event->modifiers() == Qt::NoModifier) {   // 'p'
+        if (event->modifiers() == Qt::NoModifier) {   // 'p'
             palette = (enum palette) ((this->palette + 1) % PALETTE_COUNT);
             create_palette();
-        } else if(event->modifiers() == Qt::ShiftModifier) {   // 'P'
+        } else if (event->modifiers() == Qt::ShiftModifier) {   // 'P'
             palette = (enum palette) ((this->palette - 1 + PALETTE_COUNT) % PALETTE_COUNT);
             create_palette();
         }
         break;
     case Qt::Key_S:
-        if(this->streams) {
-            if(event->modifiers() == Qt::NoModifier) {   // 's'
+        if (this->streams) {
+            if (event->modifiers() == Qt::NoModifier) {   // 's'
                 this->stream = (this->stream + 1) % this->streams;
-            } else if(event->modifiers() == Qt::ShiftModifier) {   // 'S'
+            } else if (event->modifiers() == Qt::ShiftModifier) {   // 'S'
                 this->stream = (this->stream - 1 + this->streams) % this->streams;
             }
         }
         break;
     case Qt::Key_U:
-        if(event->modifiers() == Qt::NoModifier) {   // 'u'
+        if (event->modifiers() == Qt::NoModifier) {   // 'u'
             this->urange = spek_min(this->urange + 1, MAX_RANGE);
-        } else if(event->modifiers() == Qt::ShiftModifier) {   // 'U'
+        } else if (event->modifiers() == Qt::ShiftModifier) {   // 'U'
             this->urange = spek_max(this->urange - 1, this->lrange + 1);
         }
         break;
     case Qt::Key_W:
-        if(event->modifiers() == Qt::NoModifier) {   // 'w'
+        if (event->modifiers() == Qt::NoModifier) {   // 'w'
             this->fft_bits = spek_min(this->fft_bits + 1, MAX_FFT_BITS);
             create_palette();
-        } else if(event->modifiers() == Qt::ShiftModifier) {   // 'W'
+        } else if (event->modifiers() == Qt::ShiftModifier) {   // 'W'
             this->fft_bits = spek_max(this->fft_bits - 1, MIN_FFT_BITS);
             create_palette();
         }
@@ -205,11 +205,7 @@ void SpekSpectrogram::paint(QPainter *dc)
         PACKAGE_NAME
     );
 
-#if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
-    const int package_name_width = QFontMetrics(largeFont).horizontalAdvance(PACKAGE_NAME " ");
-#else
-    const int package_name_width = QFontMetrics(largeFont).width(PACKAGE_NAME " ");
-#endif
+    const int package_name_width = QtFontWidth(QFontMetrics(largeFont), PACKAGE_NAME " ");
     dc->setFont(smallFont);
     dc->drawText(
         w - RPAD + GAP + package_name_width,
@@ -217,7 +213,7 @@ void SpekSpectrogram::paint(QPainter *dc)
         PACKAGE_VERSION
     );
 
-    if(this->image.width() > 1 && this->image.height() > 1 &&
+    if (this->image.width() > 1 && this->image.height() > 1 &&
         w - LPAD - RPAD > 0 && h - TPAD - BPAD > 0) {
         // Draw the spectrogram.
         dc->drawImage(LPAD, TPAD, this->image.scaled(w - LPAD - RPAD, h - TPAD - BPAD));
@@ -238,7 +234,7 @@ void SpekSpectrogram::paint(QPainter *dc)
             trim(dc, this->desc, w - LPAD - RPAD, true)
         );
 
-        if(this->duration) {
+        if (this->duration) {
             // Time ruler.
             int time_factors[] = {1, 2, 5, 10, 20, 30, 1 * 60, 2 * 60, 5 * 60, 10 * 60, 20 * 60, 30 * 60, 0};
             SpekRuler time_ruler(
@@ -258,9 +254,9 @@ void SpekSpectrogram::paint(QPainter *dc)
             time_ruler.draw(*dc);
         }
 
-        if(this->sample_rate) {
+        if (this->sample_rate) {
             // Frequency ruler.
-            int freq = this->sample_rate / 2;
+            const int freq = this->sample_rate / 2;
             int freq_factors[] = {1000, 2000, 5000, 10000, 20000, 0};
             SpekRuler freq_ruler(
                 LPAD,
@@ -281,9 +277,10 @@ void SpekSpectrogram::paint(QPainter *dc)
     }
 
     // The palette.
-    if(h - TPAD - BPAD > 0) {
+    if (h - TPAD - BPAD > 0) {
         dc->drawImage(w - RPAD + GAP, TPAD, this->palette_image.scaled(RULER, h - TPAD - BPAD + 1));
 
+        // Spectral density.
         int density_factors[] = {1, 2, 5, 10, 20, 50, 0};
         SpekRuler density_ruler(
             w - RPAD + GAP + RULER,
@@ -306,14 +303,14 @@ void SpekSpectrogram::paint(QPainter *dc)
 static void pipeline_cb(int bands, int sample, float *values, void *cb_data)
 {
     SpekSpectrogram *spek = static_cast<SpekSpectrogram*>(cb_data);
-    if(sample == -1) {
+    if (sample == -1) {
 //        spek->stop();
         return;
     }
 
     // TODO: check image size, quit if wrong.
     const double range = spek->getURange() - spek->getLRange();
-    for(int y = 0; y < bands; y++) {
+    for (int y = 0; y < bands; y++) {
         const double value = fmin(spek->getURange(), fmax(spek->getLRange(), values[y]));
         const double level = (value - spek->getLRange()) / range;
         const uint32_t color = spek_palette(spek->getPalette(), level);
@@ -324,7 +321,7 @@ static void pipeline_cb(int bands, int sample, float *values, void *cb_data)
 
 void SpekSpectrogram::start()
 {
-    if(this->path.isEmpty()) {
+    if (this->path.isEmpty()) {
         return;
     }
 
@@ -332,8 +329,8 @@ void SpekSpectrogram::start()
     // The number of samples is the number of pixels available for the image.
     // The number of bands is fixed, FFT results are very different for
     // different values but we need some consistency.
-    int samples = width() - LPAD - RPAD;
-    if(samples > 0) {
+    const int samples = width() - LPAD - RPAD;
+    if (samples > 0) {
         this->image = QImage(samples, bits_to_bands(this->fft_bits), QImage::Format_RGB32);
         this->pipeline = spek_pipeline_open(
             this->audio->open(std::string(this->path.toUtf8().data()), this->stream),
@@ -357,7 +354,7 @@ void SpekSpectrogram::start()
 
 void SpekSpectrogram::stop()
 {
-    if(this->pipeline) {
+    if (this->pipeline) {
         spek_pipeline_close(this->pipeline);
         this->pipeline = nullptr;
     }
@@ -366,9 +363,9 @@ void SpekSpectrogram::stop()
 void SpekSpectrogram::create_palette()
 {
     this->palette_image = QImage(RULER, bits_to_bands(this->fft_bits), QImage::Format_RGB32);
-    for(int y = 0; y < bits_to_bands(this->fft_bits); y++) {
+    for (int y = 0; y < bits_to_bands(this->fft_bits); y++) {
         uint32_t color = spek_palette(this->palette, y / (double)bits_to_bands(this->fft_bits));
-        for(int j =0; j < RULER; ++j) {
+        for (int j =0; j < RULER; ++j) {
             this->palette_image.setPixel(
                 j,
                 bits_to_bands(this->fft_bits) - y - 1,
@@ -380,18 +377,14 @@ void SpekSpectrogram::create_palette()
 
 static QString trim(QPainter *dc, const QString& s, int length, bool trim_end)
 {
-    if(length <= 0) {
+    if (length <= 0) {
         return QString();
     }
 
     // Check if the entire string fits.
-    QFontMetrics ft(dc->font());
-#if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
-    int w = ft.horizontalAdvance(s);
-#else
-    int w = ft.width(s);
-#endif
-    if(w <= length) {
+    const QFontMetrics ft(dc->font());
+    int w = QtFontWidth(ft, s);
+    if (w <= length) {
         return s;
     }
 
@@ -399,14 +392,10 @@ static QString trim(QPainter *dc, const QString& s, int length, bool trim_end)
     QString fix("...");
     int i = 0;
     int k = s.length();
-    while(k - i > 1) {
+    while (k - i > 1) {
         int j = (i + k) / 2;
-#if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
-        w = ft.horizontalAdvance(trim_end ? s.mid(0, j) + fix : fix + s.mid(j));
-#else
-        w = ft.width(trim_end ? s.mid(0, j) + fix : fix + s.mid(j));
-#endif
-        if(trim_end != (w > length)) {
+        w = QtFontWidth(ft, trim_end ? s.mid(0, j) + fix : fix + s.mid(j));
+        if (trim_end != (w > length)) {
             i = j;
         } else {
             k = j;
@@ -416,6 +405,7 @@ static QString trim(QPainter *dc, const QString& s, int length, bool trim_end)
     return trim_end ? s.mid(0, i) + fix : fix + s.mid(k);
 }
 
-static int bits_to_bands(int bits) {
+static int bits_to_bands(int bits)
+{
     return (1 << (bits - 1)) + 1;
 }

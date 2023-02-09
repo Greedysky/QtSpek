@@ -75,23 +75,22 @@ SpekPreferencesDialog::SpekPreferencesDialog(QWidget *parent)
     layout->addWidget(languageBox);
 
     const QString &active = SpekPreferences::get().get_language();
-    for(int i = 0; i < 1000; ++i) {
+    for (int i = 0; i < 1000; ++i) {
         const char *key = available_languages[i];
         const char *value = available_languages[i + 1];
-        if(key == NULL || value == NULL) {
+        if (key == NULL || value == NULL) {
             break;
         }
 
-        if(i == 0) {
+        if (i == 0) {
             languageBox->addItem(tr("(system default)"), key);
-        }
-        else if(i % 2 == 0) {
+        } else if (i % 2 == 0) {
             languageBox->addItem(value, key);
         }
     }
 
-    for(int i = 0; i < languageBox->count(); ++i) {
-        if(languageBox->itemData(i).toString() == active) {
+    for (int i = 0; i < languageBox->count(); ++i) {
+        if (languageBox->itemData(i).toString() == active) {
             languageBox->setCurrentIndex(i);
             break;
         }

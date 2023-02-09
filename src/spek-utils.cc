@@ -18,7 +18,7 @@ int spek_vercmp(const char *a, const char *b)
     }
 
     char *i, *j;
-    while(1) {
+    while (true) {
         i = j = NULL;
         long x = strtol(a, &i, 10);
         long y = strtol(b, &j, 10);

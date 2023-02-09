@@ -52,11 +52,13 @@ enum class AudioError
     BAD_SAMPLE_FORMAT,
 };
 
-inline bool operator!(AudioError error) {
+inline bool operator!(AudioError error)
+{
     return error == AudioError::OK;
 }
 
-inline std::ostream& operator<<(std::ostream& os, AudioError error) {
+inline std::ostream& operator<<(std::ostream& os, AudioError error)
+{
     return os << static_cast<int>(error);
 }
 

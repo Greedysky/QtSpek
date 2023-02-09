@@ -87,8 +87,8 @@ SpekWindow::~SpekWindow()
 
 void SpekWindow::open(const QString& path)
 {
-    QFileInfo file(path);
-    if(file.exists()) {
+    const QFileInfo file(path);
+    if (file.exists()) {
         setWindowTitle("Spek - " + file.fileName());
         this->path = path;
         this->spectrogram->open(path);
@@ -103,8 +103,8 @@ void SpekWindow::openClicked()
     filters += ";;";
     filters += tr("Audio files");
     filters += " (";
-    for(int i = 0; audio_extensions[i]; ++i) {
-        if(i) {
+    for (int i = 0; audio_extensions[i]; ++i) {
+        if (i) {
             filters += ";";
         }
 
@@ -114,7 +114,7 @@ void SpekWindow::openClicked()
     filters += ")";
 
     const QString &path = QFileDialog::getOpenFileName(this, tr("Open File"), ".", filters);
-    if(!path.isEmpty()) {
+    if (!path.isEmpty()) {
         open(path);
     }
 }
@@ -126,12 +126,12 @@ void SpekWindow::saveClicked()
     filters += " (*.png)";
 
     QString name = ".";
-    QFileInfo file(this->path);
+    const QFileInfo file(this->path);
     name = file.exists() ? file.baseName() : tr("Untitled");
     name += ".png";
 
     const QString &path = QFileDialog::getSaveFileName(this, tr("Save Spectrogram"), name, filters);
-    if(!path.isEmpty()) {
+    if (!path.isEmpty()) {
         this->spectrogram->save(path);
     }
 }

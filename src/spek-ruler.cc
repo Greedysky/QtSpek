@@ -1,6 +1,7 @@
-#include <cmath>
-
 #include "spek-ruler.h"
+#include "spek.h"
+
+#include <cmath>
 #include <QFontMetrics>
 #include <QApplication>
 
@@ -17,19 +18,15 @@ SpekRuler::SpekRuler(
 
 void SpekRuler::draw(QPainter &dc)
 {
-    QFontMetrics f(QApplication::font());
-#if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
-    const int w = f.horizontalAdvance(sample_label);
-#else
-    const int w = f.width(sample_label);
-#endif
+    const QFontMetrics f(dc.font());
+    const int w = QtFontWidth(f, sample_label);
     const int h = f.height();
     const int len = this->pos == TOP || this->pos == BOTTOM ? w : h;
 
     // Select the factor to use, we want some space between the labels.
     int factor = 0;
-    for(int i = 0; factors[i]; ++i) {
-        if(fabs(this->scale * factors[i]) >= this->spacing * len) {
+    for (int i = 0; factors[i]; ++i) {
+        if (fabs(this->scale * factors[i]) >= this->spacing * len) {
             factor = factors[i];
             break;
         }
@@ -39,9 +36,9 @@ void SpekRuler::draw(QPainter &dc)
     this->draw_tick(dc, min_units);
     this->draw_tick(dc, max_units);
 
-    if(factor > 0) {
-        for(int tick = min_units + factor; tick < max_units; tick += factor) {
-            if(fabs(this->scale * (max_units - tick)) < len * 1.2) {
+    if (factor > 0) {
+        for (int tick = min_units + factor; tick < max_units; tick += factor) {
+            if (fabs(this->scale * (max_units - tick)) < len * 1.2) {
                 break;
             }
             this->draw_tick(dc, tick);
@@ -51,39 +48,34 @@ void SpekRuler::draw(QPainter &dc)
 
 void SpekRuler::draw_tick(QPainter &dc, int tick)
 {
-    double GAP = 10;
-    double TICK_LEN = 4;
+    constexpr int GAP = 10;
+    constexpr int TICK_LEN = 4;
 
-    QString label = this->formatter(tick);
-    int value = this->pos == TOP || this->pos == BOTTOM ?
-        tick : this->max_units + this->min_units - tick;
-    double p = this->offset + this->scale * (value - min_units);
+    const QString &label = this->formatter(tick);
+    const int value = this->pos == TOP || this->pos == BOTTOM ? tick : this->max_units + this->min_units - tick;
+    const double p = this->offset + this->scale * (value - min_units);
 
-    QFontMetrics f(QApplication::font());
-#if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
-    const int w = f.horizontalAdvance(sample_label);
-#else
-    const int w = f.width(sample_label);
-#endif
-    const int h = f.height();
+    const QFontMetrics f(dc.font());
+    const int w = QtFontWidth(f, sample_label);
+    const int h = -f.height() / 2;
 
-    if(this->pos == TOP) {
+    if (this->pos == TOP) {
         dc.drawText(this->x + p - w / 2, this->y - GAP - h, label);
-    } else if(this->pos == RIGHT){
+    } else if (this->pos == RIGHT){
         dc.drawText(this->x + GAP, this->y + p - h / 2, label);
-    } else if(this->pos == BOTTOM) {
-        dc.drawText(this->x + p - w / 2, this->y + GAP*2, label);
-    } else if(this->pos == LEFT){
+    } else if (this->pos == BOTTOM) {
+        dc.drawText(this->x + p - w / 2, this->y + GAP * 2, label);
+    } else if (this->pos == LEFT){
         dc.drawText(this->x - w - GAP, this->y + p - h / 2, label);
     }
 
-    if(this->pos == TOP) {
+    if (this->pos == TOP) {
         dc.drawLine(this->x + p, this->y, this->x + p, this->y - TICK_LEN);
-    } else if(this->pos == RIGHT) {
+    } else if (this->pos == RIGHT) {
         dc.drawLine(this->x, this->y + p, this->x + TICK_LEN, this->y + p);
-    } else if(this->pos == BOTTOM) {
+    } else if (this->pos == BOTTOM) {
         dc.drawLine(this->x + p, this->y, this->x + p, this->y + TICK_LEN);
-    } else if(this->pos == LEFT) {
+    } else if (this->pos == LEFT) {
         dc.drawLine(this->x, this->y + p, this->x - TICK_LEN, this->y + p);
     }
 }
