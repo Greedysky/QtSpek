@@ -49,6 +49,7 @@ struct spek_pipeline
     bool has_worker_cond;
     bool worker_done;
     volatile bool quit;
+
 };
 
 // Forward declarations.
@@ -221,7 +222,7 @@ std::string spek_pipeline_desc(const struct spek_pipeline *pipeline)
         default:
             assert(false);
         }
-        if (window_function_name.size()) {
+        if (window_function_name.length()) {
             items.push_back("F:" + window_function_name);
         }
     }
@@ -371,7 +372,7 @@ static float get_window(enum window_function f, int i, float *coss, int n)
     case WINDOW_HAMMING:
         return 0.53836f - 0.46164f * coss[i];
     case WINDOW_BLACKMAN_HARRIS:
-        return 0.35875f - 0.48829f * coss[i] + 0.14128f * coss[2*i % n] - 0.01168f * coss[3*i % n];
+        return 0.35875f - 0.48829f * coss[i] + 0.14128f * coss[2 * i % n] - 0.01168f * coss[3 * i % n];
     default:
         assert(false);
         return 0.0f;
@@ -427,14 +428,14 @@ static void * worker_func(void *pp)
 
             if (frames % p->nfft == 0 || ((int_full || int_over) && num_fft == 0)) {
                 prev_head = head;
-                for (int i = 0; i < p->nfft; i++) {
+                for (int i = 0; i < p->nfft; ++i) {
                     float val = p->input[(p->input_size + head - p->nfft + i) % p->input_size];
                     val *= get_window(p->window_function, i, p->coss, p->nfft);
                     p->fft->set_input(i, val);
                 }
                 p->fft->execute();
                 num_fft++;
-                for (int i = 0; i < p->fft->get_output_size(); i++) {
+                for (int i = 0; i < p->fft->get_output_size(); ++i) {
                     p->output[i] += p->fft->get_output(i);
                 }
             }
@@ -447,7 +448,7 @@ static void * worker_func(void *pp)
                     acc_error += p->file->get_error_per_interval();
                 }
 
-                for (int i = 0; i < p->fft->get_output_size(); i++) {
+                for (int i = 0; i < p->fft->get_output_size(); ++i) {
                     p->output[i] /= num_fft;
                 }
 

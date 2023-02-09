@@ -37,6 +37,7 @@ public:
     virtual int64_t get_frames_per_interval() const = 0;
     virtual int64_t get_error_per_interval() const = 0;
     virtual int64_t get_error_base() const = 0;
+
 };
 
 enum class AudioError

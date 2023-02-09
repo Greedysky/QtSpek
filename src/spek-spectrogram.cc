@@ -9,7 +9,6 @@
 #include <QPainter>
 #include <QDateTime>
 #include <QKeyEvent>
-#include <QApplication>
 
 enum
 {
@@ -78,7 +77,7 @@ void SpekSpectrogram::save(const QString& path)
 
 void SpekSpectrogram::keyPressEvent(QKeyEvent *event)
 {
-    switch(event->key()) {
+    switch (event->key()) {
     case Qt::Key_C:
         if (this->channels) {
             if (event->modifiers() == Qt::NoModifier) {   // 'c'
@@ -310,7 +309,7 @@ static void pipeline_cb(int bands, int sample, float *values, void *cb_data)
 
     // TODO: check image size, quit if wrong.
     const double range = spek->getURange() - spek->getLRange();
-    for (int y = 0; y < bands; y++) {
+    for (int y = 0; y < bands; ++y) {
         const double value = fmin(spek->getURange(), fmax(spek->getLRange(), values[y]));
         const double level = (value - spek->getLRange()) / range;
         const uint32_t color = spek_palette(spek->getPalette(), level);
@@ -363,7 +362,7 @@ void SpekSpectrogram::stop()
 void SpekSpectrogram::create_palette()
 {
     this->palette_image = QImage(RULER, bits_to_bands(this->fft_bits), QImage::Format_RGB32);
-    for (int y = 0; y < bits_to_bands(this->fft_bits); y++) {
+    for (int y = 0; y < bits_to_bands(this->fft_bits); ++y) {
         uint32_t color = spek_palette(this->palette, y / (double)bits_to_bands(this->fft_bits));
         for (int j =0; j < RULER; ++j) {
             this->palette_image.setPixel(
@@ -382,8 +381,8 @@ static QString trim(QPainter *dc, const QString& s, int length, bool trim_end)
     }
 
     // Check if the entire string fits.
-    const QFontMetrics ft(dc->font());
-    int w = QtFontWidth(ft, s);
+    const QFontMetrics ftm(dc->font());
+    int w = QtFontWidth(ftm, s);
     if (w <= length) {
         return s;
     }
@@ -393,8 +392,8 @@ static QString trim(QPainter *dc, const QString& s, int length, bool trim_end)
     int i = 0;
     int k = s.length();
     while (k - i > 1) {
-        int j = (i + k) / 2;
-        w = QtFontWidth(ft, trim_end ? s.mid(0, j) + fix : fix + s.mid(j));
+        const int j = (i + k) / 2;
+        w = QtFontWidth(ftm, trim_end ? s.mid(0, j) + fix : fix + s.mid(j));
         if (trim_end != (w > length)) {
             i = j;
         } else {

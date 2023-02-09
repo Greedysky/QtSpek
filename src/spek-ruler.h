@@ -39,6 +39,7 @@ protected:
     double scale;
     double offset;
     formatter_cb formatter;
+
 };
 
 #endif

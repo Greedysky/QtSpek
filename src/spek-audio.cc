@@ -23,22 +23,23 @@ public:
         int audio_stream, const std::string& codec_name, int bit_rate, int sample_rate,
         int bits_per_sample, int streams, int channels, double duration
     );
-    ~AudioFileImpl() override;
-    void start(int channel, int samples) override;
-    int read() override;
+    ~AudioFileImpl();
 
-    AudioError get_error() const override { return this->error; }
-    std::string get_codec_name() const override { return this->codec_name; }
-    int get_bit_rate() const override { return this->bit_rate; }
-    int get_sample_rate() const override { return this->sample_rate; }
-    int get_bits_per_sample() const override { return this->bits_per_sample; }
-    int get_streams() const override { return this->streams; }
-    int get_channels() const override { return this->channels; }
-    double get_duration() const override { return this->duration; }
-    const float *get_buffer() const override { return this->buffer; }
-    int64_t get_frames_per_interval() const override { return this->frames_per_interval; }
-    int64_t get_error_per_interval() const override { return this->error_per_interval; }
-    int64_t get_error_base() const override { return this->error_base; }
+    virtual void start(int channel, int samples) override final;
+    virtual int read() override final;
+
+    virtual AudioError get_error() const override { return this->error; }
+    virtual std::string get_codec_name() const override { return this->codec_name; }
+    virtual int get_bit_rate() const override { return this->bit_rate; }
+    virtual int get_sample_rate() const override { return this->sample_rate; }
+    virtual int get_bits_per_sample() const override { return this->bits_per_sample; }
+    virtual int get_streams() const override { return this->streams; }
+    virtual int get_channels() const override { return this->channels; }
+    virtual double get_duration() const override { return this->duration; }
+    virtual const float *get_buffer() const override { return this->buffer; }
+    virtual int64_t get_frames_per_interval() const override { return this->frames_per_interval; }
+    virtual int64_t get_error_per_interval() const override { return this->error_per_interval; }
+    virtual int64_t get_error_base() const override { return this->error_base; }
 
 private:
     AudioError error;
@@ -63,6 +64,7 @@ private:
     int64_t frames_per_interval;
     int64_t error_per_interval;
     int64_t error_base;
+
 };
 
 
@@ -101,7 +103,7 @@ std::unique_ptr<AudioFile> Audio::open(const std::string& file_name, int stream)
     int audio_stream = -1;
     int streams = 0;
     if (!error) {
-        for (unsigned int i = 0; i < format_context->nb_streams; i++) {
+        for (unsigned int i = 0; i < format_context->nb_streams; ++i) {
             if (format_context->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_AUDIO) {
                 if (stream == streams) {
                     audio_stream = i;

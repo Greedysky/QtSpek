@@ -20,8 +20,8 @@ int spek_vercmp(const char *a, const char *b)
     char *i, *j;
     while (true) {
         i = j = NULL;
-        long x = strtol(a, &i, 10);
-        long y = strtol(b, &j, 10);
+        const long x = strtol(a, &i, 10);
+        const long y = strtol(b, &j, 10);
 
         if (x < y) {
             return -1;

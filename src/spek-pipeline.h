@@ -8,7 +8,8 @@ class AudioFile;
 class FFTPlan;
 struct spek_pipeline;
 
-enum window_function {
+enum window_function
+{
     WINDOW_HANN,
     WINDOW_HAMMING,
     WINDOW_BLACKMAN_HARRIS,

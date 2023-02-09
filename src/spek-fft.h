@@ -14,7 +14,9 @@ class FFT
 {
 public:
     FFT() {}
+
     std::unique_ptr<FFTPlan> create(int nbits);
+
 };
 
 class FFTPlan
@@ -51,6 +53,7 @@ private:
     int output_size;
     float *input;
     std::vector<float> output;
+
 };
 
 #endif
