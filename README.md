@@ -1,10 +1,13 @@
 # QtSpek
-基于Qt的频谱分析器
+![QtSpek](https://img.shields.io/badge/Greedysky-QtSpek-green.svg?style=flat-square)
+![Version](https://img.shields.io/badge/Version-0.8.5-blue.svg?style=flat-square)
+![License](https://img.shields.io/badge/License-GPL%20V3-yellowgreen.svg?style=flat-square)
 
-修改于Spek[官网地址](http://spek.cc), [Github仓库地址](https://github.com/alexkay/spek)
+### **|[About](https://github.com/Greedysky/QtSpek#usage)|[License](https://github.com/Greedysky/QtSpek#license)|[Download](https://github.com/Greedysky/QtSpek#download)|[Features](https://github.com/Greedysky/QtSpek#features)|[Screenshots](https://github.com/Greedysky/QtSpek#screenshots)|[Copyright](https://github.com/Greedysky/QtSpek#copyright)|[Contribute](https://github.com/Greedysky/QtSpek#how-to-contribute)|**
 
-![0](https://github.com/Greedysky/qt-spek/blob/master/resource/demo.jpg?raw=true)
-![1](https://github.com/Greedysky/qt-spek/blob/master/resource/demo2.jpg?raw=true)
+Usage
+--------
+**基于Qt的频谱分析器，修改于Spek，支持Windows和Linux平台.**
 
 ## CI Status
  * Qt stable version be tested on Qt4.x for windows-mingw 32bit
@@ -18,9 +21,22 @@
 | Windows  | 4.x GCC & 5.x GCC | ![Windows](https://img.shields.io/badge/build-passing-brightgreen.svg) |
 | Windows  | MSVC              | ![Windows](https://img.shields.io/badge/build-unknown-lightgrey.svg)   |
 | OS X     | Clang             | ![OSX](https://img.shields.io/badge/build-unknown-lightgrey.svg)       |
+# For Developers
 
-## Spectrogram
+License
+--------
+QtSpek is free software licensed under the term of [Licence GPL v3](https://github.com/Greedysky/QtSpek/blob/master/LICENSE). If you use QtSpek or its constituent libraries, you must adhere to the terms of the license in question.
 
+Download
+--------
+Github: **<u>https://github.com/Greedysky/QtSpek</u>**
+
+官方地址: **<u>http://spek.cc</u>**
+
+官方仓库地址: **<u>https://github.com/alexkay/spek</u>**
+
+Features
+--------
 `c`, `C`
 :   Change the audio channel.
 
@@ -41,3 +57,23 @@
 
 `w`, `W`
 :   Change the DFT window size.
+
+Screenshots
+--------
+### Demo
+![Demo](https://github.com/Greedysky/QtSpek/blob/master/resource/demo.jpg?raw=true)
+
+![Demo](https://github.com/Greedysky/QtSpek/blob/master/resource/demo2.jpg?raw=true)
+
+Copyright
+--------
+ * This file is part of the QtSpek project.
+ * Copyright (C) 2015 - 2023 Greedysky Studio.
+ * Mail: greedysky@163.com.
+
+How To Contribute
+--------
+ * Fork this project on github and make a branch. Commit in that branch, and push, then create a pull request to be reviewed and merged.
+ * Create an issue if you have any problem when using project or you find a bug, etc.
+ * What you can do: translation, write document, wiki, find or fix bugs, give your idea for this project etc.
+ * If you want to join the project developed together, please send e-mail to me.
