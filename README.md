@@ -29,7 +29,9 @@ QtSpek is free software licensed under the term of [Licence GPL v3](https://gith
 
 Download
 --------
-Github: **<u>https://github.com/Greedysky/QtSpek</u>**
+Gitee地址: **<u>https://gitee.com/Greedysky/QtSpek</u>**
+
+Github地址: **<u>https://github.com/Greedysky/QtSpek</u>**
 
 官方地址: **<u>http://spek.cc</u>**
 
