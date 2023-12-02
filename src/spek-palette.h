@@ -5,11 +5,12 @@
 
 typedef enum palette {
     PALETTE_SPECTRUM,
-    PALETTE_SPECTROGRAM,
+    PALETTE_RAINBOW,
+    PALETTE_PERCEPTUAL,
     PALETTE_SOX,
     PALETTE_MONO,
     PALETTE_COUNT,
-    PALETTE_DEFAULT = PALETTE_SPECTROGRAM,
+    PALETTE_DEFAULT = PALETTE_RAINBOW,
 }Palette;
 
 uint32_t spek_palette(Palette palette, double level);

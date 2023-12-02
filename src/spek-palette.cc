@@ -1,6 +1,5 @@
-#include <assert.h>
-#include <qmath.h>
 #include "spek-palette.h"
+#include <qmath.h>
 
 #include <QColor>
 #include <QVector>
@@ -18,7 +17,7 @@ static QVector<QColor> globalGolors = { QColor(0, 0, 0),
                                         QColor(255, 0, 0)
                                       };
 
-void createGradientTable()
+static void createGradientTable()
 {
     int numbers = 6;
     for (int i = 0; i < GRADIENT_TABLE_SIZE; ++i) {
@@ -93,7 +92,7 @@ static uint32_t spectrum(double level)
     return (rr << 16) + (gg << 8) + bb;
 }
 
-uint32_t spectrogram(double level)
+static uint32_t rainbow(double level)
 {
     if (!globalTableInit) {
         createGradientTable();
@@ -102,6 +101,29 @@ uint32_t spectrogram(double level)
 
     const int index = qBound(0, int(level * GRADIENT_TABLE_SIZE), GRADIENT_TABLE_SIZE - 1);
     return globalTableGolors[index];
+}
+
+static uint32_t perceptual(double level)
+{
+    float R, G, B, I, H, S, key = 1.5;
+    level *= 256;
+    I = level;
+    H = M_PI * 2 * level / 256;
+
+    (level <= 127) ? S = key * level : S = key * (256 - level);
+
+    R = I - S * cos(H) * 0.201424 + S * sin(H) * 0.612372;
+    G = I - S * cos(H) * 0.201424 - S * sin(H) * 0.612372;
+    B = I + S * cos(H) * 0.402848 + S * sin(H) * 0.0;
+
+    if(R < 0) R = 0; if(R >= 256) R = 255;
+    if(G < 0) G = 0; if(G >= 256) G = 255;
+    if(B < 0) B = 0; if(B >= 256) B = 255;
+
+    const uint32_t rr = (uint32_t) (R);
+    const uint32_t gg = (uint32_t) (G);
+    const uint32_t bb = (uint32_t) (B);
+    return (rr << 16) + (gg << 8) + bb;
 }
 
 // The default palette used by SoX and written by Rob Sykes.
@@ -146,14 +168,15 @@ uint32_t spek_palette(Palette palette, double level)
     switch (palette) {
     case PALETTE_SPECTRUM:
         return spectrum(level);
-    case PALETTE_SPECTROGRAM:
-        return spectrogram(level);
+    case PALETTE_RAINBOW:
+        return rainbow(level);
+    case PALETTE_PERCEPTUAL:
+        return perceptual(level);
     case PALETTE_SOX:
         return sox(level);
     case PALETTE_MONO:
         return mono(level);
     default:
-        assert(false);
         return 0;
     }
 }
