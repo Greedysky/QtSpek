@@ -3,15 +3,15 @@
 
 #include <stdint.h>
 
-typedef enum palette {
+enum Palette {
     PALETTE_SPECTRUM,
-    PALETTE_RAINBOW,
     PALETTE_PERCEPTUAL,
+    PALETTE_RAINBOW,
     PALETTE_SOX,
     PALETTE_MONO,
     PALETTE_COUNT,
-    PALETTE_DEFAULT = PALETTE_RAINBOW,
-}Palette;
+    PALETTE_DEFAULT = PALETTE_PERCEPTUAL,
+};
 
 uint32_t spek_palette(Palette palette, double level);
 

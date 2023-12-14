@@ -103,10 +103,10 @@ void SpekSpectrogram::keyPressEvent(QKeyEvent *event)
         break;
     case Qt::Key_P:
         if (event->modifiers() == Qt::NoModifier) {   // 'p'
-            palette = (enum palette) ((this->palette + 1) % PALETTE_COUNT);
+            palette = (Palette) ((this->palette + 1) % PALETTE_COUNT);
             create_palette();
         } else if (event->modifiers() == Qt::ShiftModifier) {   // 'P'
-            palette = (enum palette) ((this->palette - 1 + PALETTE_COUNT) % PALETTE_COUNT);
+            palette = (Palette) ((this->palette - 1 + PALETTE_COUNT) % PALETTE_COUNT);
             create_palette();
         }
         break;

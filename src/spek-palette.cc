@@ -6,20 +6,20 @@
 
 #define GRADIENT_TABLE_SIZE 256
 
-static bool globalTableInit = false;
-static uint32_t globalTableGolors[GRADIENT_TABLE_SIZE];
-static QVector<QColor> globalGolors = { QColor(0, 0, 0),
-                                        QColor(0, 32, 100),
-                                        QColor(0, 120, 160),
-                                        QColor(128, 255, 120),
-                                        QColor(255, 255, 0),
-                                        QColor(255, 128, 0),
-                                        QColor(255, 0, 0)
-                                      };
+static bool __globalTableInit__ = false;
+static uint32_t __globalTableGolors__[GRADIENT_TABLE_SIZE];
+static QVector<QColor> __globalGolors__ = { QColor(0, 0, 0),
+                                            QColor(0, 32, 100),
+                                            QColor(0, 120, 160),
+                                            QColor(128, 255, 120),
+                                            QColor(255, 255, 0),
+                                            QColor(255, 128, 0),
+                                            QColor(255, 0, 0)
+                                          };
 
 static void createGradientTable()
 {
-    int numbers = 6;
+    constexpr int numbers = 6;
     for (int i = 0; i < GRADIENT_TABLE_SIZE; ++i) {
         double position = (double)i/GRADIENT_TABLE_SIZE;
         /* if position > 1 then we have repetition of colors it maybe useful    */
@@ -35,17 +35,17 @@ static void createGradientTable()
         const int n = (int)m; // integer of m
         const double f = m - n;  // fraction of m
 
-        globalTableGolors[i] = 0xFF0000;
+        __globalTableGolors__[i] = 0xFF0000;
         if (n < numbers) {
-            globalTableGolors[i] = ((uint32_t)((globalGolors[n].red()) + f * ((globalGolors[n+1].red()) - (globalGolors[n].red()))) & 0xFF) << 16 |
-                ((uint32_t)((globalGolors[n].green()) + f * ((globalGolors[n+1].green()) - (globalGolors[n].green()))) & 0xFF) << 8 |
-                ((uint32_t)((globalGolors[n].blue()) + f * ((globalGolors[n+1].blue()) - (globalGolors[n].blue()))) & 0xFF) << 0;
+            __globalTableGolors__[i] = ((uint32_t)((__globalGolors__[n].red()) + f * ((__globalGolors__[n+1].red()) - (__globalGolors__[n].red()))) & 0xFF) << 16 |
+                ((uint32_t)((__globalGolors__[n].green()) + f * ((__globalGolors__[n+1].green()) - (__globalGolors__[n].green()))) & 0xFF) << 8 |
+                ((uint32_t)((__globalGolors__[n].blue()) + f * ((__globalGolors__[n+1].blue()) - (__globalGolors__[n].blue()))) & 0xFF) << 0;
         } else if (n == numbers) {
-            globalTableGolors[i] = ((uint32_t)(globalGolors[n].red()) & 0xFF) << 16 |
-                ((uint32_t)(globalGolors[n].green()) & 0xFF) << 8 |
-                ((uint32_t)(globalGolors[n].blue()) & 0xFF) << 0;
+            __globalTableGolors__[i] = ((uint32_t)(__globalGolors__[n].red()) & 0xFF) << 16 |
+                ((uint32_t)(__globalGolors__[n].green()) & 0xFF) << 8 |
+                ((uint32_t)(__globalGolors__[n].blue()) & 0xFF) << 0;
         } else {
-            globalTableGolors[i] = 0xFFFFFF;
+            __globalTableGolors__[i] = 0xFFFFFF;
         }
     }
 }
@@ -92,18 +92,18 @@ static uint32_t spectrum(double level)
     return (rr << 16) + (gg << 8) + bb;
 }
 
-static uint32_t rainbow(double level)
+static uint32_t perceptual(double level)
 {
-    if (!globalTableInit) {
+    if (!__globalTableInit__) {
         createGradientTable();
-        globalTableInit = true;
+        __globalTableInit__ = true;
     }
 
     const int index = qBound(0, int(level * GRADIENT_TABLE_SIZE), GRADIENT_TABLE_SIZE - 1);
-    return globalTableGolors[index];
+    return __globalTableGolors__[index];
 }
 
-static uint32_t perceptual(double level)
+static uint32_t rainbow(double level)
 {
     float R, G, B, I, H, S, key = 1.5;
     level *= 256;
@@ -168,10 +168,10 @@ uint32_t spek_palette(Palette palette, double level)
     switch (palette) {
     case PALETTE_SPECTRUM:
         return spectrum(level);
-    case PALETTE_RAINBOW:
-        return rainbow(level);
     case PALETTE_PERCEPTUAL:
         return perceptual(level);
+    case PALETTE_RAINBOW:
+        return rainbow(level);
     case PALETTE_SOX:
         return sox(level);
     case PALETTE_MONO:
