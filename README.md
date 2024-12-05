@@ -3,7 +3,7 @@
 ![Version](https://img.shields.io/badge/Version-0.8.5-blue.svg?style=flat-square)
 ![License](https://img.shields.io/badge/License-GPL%20V3-yellowgreen.svg?style=flat-square)
 
-### **|[About](https://github.com/Greedysky/QtSpek#usage)|[License](https://github.com/Greedysky/QtSpek#license)|[Download](https://github.com/Greedysky/QtSpek#download)|[Features](https://github.com/Greedysky/QtSpek#features)|[Screenshots](https://github.com/Greedysky/QtSpek#screenshots)|[Copyright](https://github.com/Greedysky/QtSpek#copyright)|[Contribute](https://github.com/Greedysky/QtSpek#how-to-contribute)|**
+### **|[About](#usage)|[License](#license)|[Download](#download)|[Features](#features)|[Screenshots](#screenshots)|[Copyright](#copyright)|[Contribute](#how-to-contribute)|**
 
 Usage
 --------
@@ -25,7 +25,7 @@ Usage
 
 License
 --------
-QtSpek is free software licensed under the term of [Licence GPL v3](https://github.com/Greedysky/QtSpek/blob/master/LICENSE). If you use QtSpek or its constituent libraries, you must adhere to the terms of the license in question.
+QtSpek is free software licensed under the term of [Licence GPL v3](LICENSE). If you use QtSpek or its constituent libraries, you must adhere to the terms of the license in question.
 
 Download
 --------
@@ -63,9 +63,9 @@ Features
 Screenshots
 --------
 ### Demo
-![Demo](https://github.com/Greedysky/QtSpek/blob/master/resource/demo.jpg?raw=true)
+![Demo](resource/demo.jpg?raw=true)
 
-![Demo](https://github.com/Greedysky/QtSpek/blob/master/resource/demo2.jpg?raw=true)
+![Demo](resource/demo2.jpg?raw=true)
 
 Copyright
 --------
