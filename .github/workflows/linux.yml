@@ -64,14 +64,15 @@ jobs:
       - name: Build package
         run: |
           mv bin ${{env.TTK_MODULE}}
+          # copy ffmpeg libraries
+          cp contrib/lib/libavcodec.so.57.107.100 ${{env.TTK_MODULE}}/libavcodec.so.57
+          cp contrib/lib/libavformat.so.57.83.100 ${{env.TTK_MODULE}}/libavformat.so.57
+          cp contrib/lib/libavutil.so.55.78.100 ${{env.TTK_MODULE}}/libavutil.so.55
+          cp contrib/lib/libswresample.so.2.9.100 ${{env.TTK_MODULE}}/libswresample.so.2
           cd ${{env.TTK_MODULE}}
+          export LD_LIBRARY_PATH=${{github.workspace}}/${{env.TTK_MODULE}}:$LD_LIBRARY_PATH
           # add dependency libraries and so on
           linuxdeploy-x86_64.AppImage --executable=spek --appdir=image --plugin=qt
-          # copy ffmpeg libraries
-          cp contrib/lib/libavcodec.so.57.107.100 libavcodec.so.57
-          cp contrib/lib/libavformat.so.57.83.100 libavformat.so.57
-          cp contrib/lib/libavutil.so.55.78.100 libavutil.so.55
-          cp contrib/lib/libswresample.so.2.9.100 libswresample.so.2
           cd ..
           # add portable binary package
           7z a ${{env.TTK_MODULE}}-${{env.TTK_VERSTION}}-linux-x64.7z ${{env.TTK_MODULE}}

@@ -7,7 +7,7 @@ QString spek_platform_config_path(const char *app_name)
 #ifdef Q_OS_WIN
     const QString &path = QString::fromLocal8Bit(getenv("APPDATA")) + "/";
 #else
-    const QString &path = QDir::homePath() + "/";
+    const QString &path = QDir::homePath() + ".config/";
 #endif
     return path + app_name + "/preferences";
 }
