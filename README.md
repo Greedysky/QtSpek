@@ -1,6 +1,6 @@
 # QtSpek
 ![QtSpek](https://img.shields.io/badge/Greedysky-QtSpek-green.svg?style=flat-square)
-![Version](https://img.shields.io/badge/Version-0.8.5-blue.svg?style=flat-square)
+![Version](https://img.shields.io/github/v/release/Greedysky/QtSpek?style=flat-square&label=Version)
 ![License](https://img.shields.io/badge/License-GPL%20V3-yellowgreen.svg?style=flat-square)
 
 ### **|[About](#usage)|[License](#license)|[Download](#download)|[Features](#features)|[Screenshots](#screenshots)|[Copyright](#copyright)|[Contribute](#how-to-contribute)|**
@@ -21,6 +21,7 @@ Usage
 | Windows  | 4.x GCC & 5.x GCC | ![Windows](https://img.shields.io/badge/build-passing-brightgreen.svg) |
 | Windows  | MSVC              | ![Windows](https://img.shields.io/badge/build-unknown-lightgrey.svg)   |
 | OS X     | Clang             | ![OSX](https://img.shields.io/badge/build-unknown-lightgrey.svg)       |
+
 # For Developers
 
 License
@@ -62,7 +63,6 @@ Features
 
 Screenshots
 --------
-### Demo
 ![Demo](resource/demo.jpg?raw=true)
 
 ![Demo](resource/demo2.jpg?raw=true)
