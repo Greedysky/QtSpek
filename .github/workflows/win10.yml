@@ -77,10 +77,16 @@ jobs:
       - name: Build package
         run: |
           mv bin ${{env.TTK_MODULE}}
+          # copy ffmpeg libraries
+          cp contrib/bin/avcodec-57.dll ${{env.TTK_MODULE}}
+          cp contrib/bin/avformat-57.dll ${{env.TTK_MODULE}}
+          cp contrib/bin/avutil-55.dll ${{env.TTK_MODULE}}
+          cp contrib/bin/swresample-2.dll ${{env.TTK_MODULE}}
           # add dependency libraries and so on
           windeployqt ${{env.TTK_MODULE}}/spek.exe
           # remove useless library dependency
           ls -Filter "*.a" -Recurse | Remove-Item -Force
+          rm ${{env.TTK_MODULE}}/translations -Recurse
           # add portable binary package
           7z a ${{env.TTK_MODULE}}-${{env.TTK_VERSTION}}-win10-x64.7z ${{env.TTK_MODULE}}
         working-directory: ${{github.workspace}}
