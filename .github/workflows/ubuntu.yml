@@ -13,7 +13,7 @@ jobs:
     name: Build on Qt5
     strategy:
       matrix:
-        os: [ubuntu-22.04]
+        os: [ubuntu-22.04, ubuntu-24.04]
 
     env:
       QT_VERSION: 5.9.9
@@ -82,4 +82,4 @@ jobs:
           token: ${{secrets.GITHUB_TOKEN}}
           generate_release_notes: false
           files: |
-            ${{github.workspace}}/${{env.TTK_MODULE}}-${{env.TTK_VERSTION}}-linux-x64.7z
+            ${{github.workspace}}/${{env.TTK_MODULE}}-${{env.TTK_VERSTION}}-${{matrix.os}}-x64.7z
