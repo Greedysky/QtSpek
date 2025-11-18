@@ -1,0 +1,83 @@
+# Author: Greedysky <greedysky@163.com>
+
+name: linux
+
+on: workflow_call
+
+env:
+  TTK_MODULE: QtSpek
+  TTK_VERSTION: 0.8.5
+
+jobs:
+  build:
+    name: Build on Qt5
+    strategy:
+      matrix:
+        os: [ubuntu-22.04]
+
+    env:
+      QT_VERSION: 5.9.9
+
+    runs-on: ${{matrix.os}}
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Cache Qt
+        uses: actions/cache@v4
+        with:
+          path: ${{runner.workspace}}/Qt
+          key: ${{runner.os}}-QtCache-${{env.QT_VERSION}}
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: ${{env.QT_VERSION}}
+          target: desktop
+          cache: 'true'
+
+      - name: Install linuxdeploy
+        uses: miurahr/install-linuxdeploy-action@v1
+        with:
+          plugins: qt appimage
+
+      - name: Install dependencies
+        run: sudo apt install libfuse2 p7zip-full
+
+      - name: Build library for libffmpeg
+        run: |
+          wget https://ffmpeg.org/releases/ffmpeg-3.4.14.tar.xz -O ffmpeg.tar.xz
+          7z x ffmpeg.tar.xz
+          7z x ffmpeg.tar
+          cd ffmpeg-3.4.14
+          # fix operand type mismatch for `shr'
+          wget https://raw.githubusercontent.com/FFmpeg/FFmpeg/refs/heads/master/libavcodec/x86/mathops.h -O libavcodec/x86/mathops.h
+          ./configure --prefix=${{github.workspace}}/contrib --enable-shared --disable-static --disable-debug --disable-doc --disable-avdevice --disable-x86asm --disable-network --disable-encoders --disable-indevs --disable-outdevs --disable-iconv --disable-bsfs --disable-programs --disable-d3d11va --disable-dxva2 --disable-muxers --disable-parsers --disable-filters --disable-decoders --enable-decoder=wmav1 --enable-decoder=wmav2 --enable-decoder=ape --enable-decoder=tta --enable-decoder=aac --enable-decoder=alac --enable-decoder=ra_144 --enable-decoder=ra_288 --enable-decoder=shorten --enable-decoder=eac3 --enable-decoder=dca --enable-decoder=truehd --enable-decoder=twinvq --enable-decoder=tak --enable-decoder=adpcm_adx --enable-decoder=pcm_alaw --enable-decoder=pcm_s16be --enable-decoder=pcm_s16le --enable-decoder=gsm --enable-decoder=amrnb --enable-decoder=amrwb --enable-decoder=opus --enable-decoder=ac3 --enable-decoder=mp2 --enable-decoder=mp3 --enable-decoder=dsd_lsbf --enable-decoder=dsd_msbf --enable-decoder=vorbis --enable-decoder=flac --extra-cflags="-fPIC -O3" --extra-cxxflags="-fPIC -O3"
+          make -j2 && make install
+        working-directory: ${{github.workspace}}
+
+      - name: Build project
+        run: |
+          qmake -v
+          qmake "CONFIG+=release" .
+          make -j2
+        working-directory: ${{github.workspace}}
+
+      - name: Build package
+        run: |
+          mv bin ${{env.TTK_MODULE}}
+          cd ${{env.TTK_MODULE}}
+          # add dependency libraries and so on
+          linuxdeploy-x86_64.AppImage --executable=spek --appdir=image --plugin=qt
+          cd ..
+          # add portable binary package
+          7z a ${{env.TTK_MODULE}}-${{env.TTK_VERSTION}}-linux-x64.7z ${{env.TTK_MODULE}}
+        working-directory: ${{github.workspace}}
+
+      - name: Archive artifacts
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{env.TTK_VERSTION}}
+          token: ${{secrets.GITHUB_TOKEN}}
+          generate_release_notes: false
+          files: |
+            ${{runner.workspace}}/install/${{env.TTK_MODULE}}-${{env.TTK_VERSTION}}-linux-x64.7z

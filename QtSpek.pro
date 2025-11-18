@@ -1,8 +1,20 @@
-#-------------------------------------------------
+# ***************************************************************************
+# * This file is part of the QtSpek project
+# * Copyright (C) 2015 - 2025 Greedysky Studio
 #
-# Project created by QtCreator 2017-07-18T21:45:15
+# * This program is free software; you can redistribute it and/or modify
+# * it under the terms of the GNU General Public License as published by
+# * the Free Software Foundation; either version 3 of the License, or
+# * (at your option) any later version.
 #
-#-------------------------------------------------
+# * This program is distributed in the hope that it will be useful,
+# * but WITHOUT ANY WARRANTY; without even the implied warranty of
+# * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# * GNU General Public License for more details.
+#
+# * You should have received a copy of the GNU General Public License along
+# * with this program; If not, see <http://www.gnu.org/licenses/>.
+# ***************************************************************************
 
 QT += core gui
 equals(QT_MAJOR_VERSION, 4){ #Qt4
@@ -15,10 +27,41 @@ DESTDIR = $$OUT_PWD/bin
 TEMPLATE = app
 TARGET = spek
 
+##find translation
+unix:exists($$[QT_INSTALL_BINS]/lrelease){
+    LRELEASE_EXECUTABLE = $$[QT_INSTALL_BINS]/lrelease
+}
+
+unix:exists($$[QT_INSTALL_BINS]/lrelease-qt5){
+    LRELEASE_EXECUTABLE = $$[QT_INSTALL_BINS]/lrelease-qt5
+}
+
+win32:exists($$[QT_INSTALL_BINS]/lrelease.exe){
+    LRELEASE_EXECUTABLE = $$[QT_INSTALL_BINS]/lrelease.exe
+}
+
+isEmpty(LRELEASE_EXECUTABLE){
+    error("Could not find lrelease executable")
+}else{
+    message("Found lrelease executable: $$LRELEASE_EXECUTABLE")
+}
+
+##update translation
+unix{
+    system($$PWD/utils/resource.sh $$PWD/resource $$OUT_PWD/bin)
+    system($$PWD/utils/ts_unix.py $$LRELEASE_EXECUTABLE $$OUT_PWD/bin $$PWD)
+}
+
+win32{
+    output = $$OUT_PWD/bin/po
+    output = $$replace(output, /, \\)
+    system($$PWD/utils/ts_win.bat $$LRELEASE_EXECUTABLE $$OUT_PWD/bin $$PWD)
+}
+
 win32{
     msvc{
         CONFIG += c++11
-        !contains(QMAKE_TARGET.arch, x86_64){
+        !contains(QT_ARCH, "x86_64"){
              #support on windows XP
              QMAKE_LFLAGS_WINDOWS = /SUBSYSTEM:WINDOWS,5.01
              QMAKE_LFLAGS_CONSOLE = /SUBSYSTEM:CONSOLE,5.01
@@ -114,42 +157,3 @@ TRANSLATIONS += \
     $$PWD/po/vi.ts \
     $$PWD/po/zh_CN.ts \
     $$PWD/po/zh_TW.ts
-
-##find translation
-unix:exists($$[QT_INSTALL_BINS]/lrelease){
-    LRELEASE_EXECUTABLE = $$[QT_INSTALL_BINS]/lrelease
-}
-
-unix:exists($$[QT_INSTALL_BINS]/lrelease-qt5){
-    LRELEASE_EXECUTABLE = $$[QT_INSTALL_BINS]/lrelease-qt5
-}
-
-win32:exists($$[QT_INSTALL_BINS]/lrelease.exe){
-    LRELEASE_EXECUTABLE = $$[QT_INSTALL_BINS]/lrelease.exe
-}
-
-isEmpty(LRELEASE_EXECUTABLE){
-    error(Could not find lrelease executable)
-}else{
-    message(Found lrelease executable: $$LRELEASE_EXECUTABLE)
-}
-
-##update translation
-unix{
-    output = $$OUT_PWD/bin/po
-    !exists($$output):system(mkdir -p $$output)
-
-    system(find $$PWD/po -name *.ts | xargs $$LRELEASE_EXECUTABLE)
-    system(find $$PWD/po -name *.qm | xargs rename -v -f 's/.qm/.ln/' *)
-    system(for F in $$PWD/po/*.ln ; do mv $F $$output ;done)
-}
-
-win32{
-    output = $$OUT_PWD/bin/po
-    output = $$replace(output, /, \\)
-    !exists($$output):system(md $$output)
-
-    system(for /r $$PWD/po %i in (*.ts) do $$LRELEASE_EXECUTABLE %i)
-    system(for /r $$PWD/po %i in (*.qm) do ren %i *.ln)
-    system(for /r $$PWD/po %i in (*.ln) do move /y %i $$output)
-}
