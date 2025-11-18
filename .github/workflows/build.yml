@@ -20,3 +20,7 @@ jobs:
   win7:
     uses: ./.github/workflows/win7.yml
     secrets: inherit
+
+  win10:
+    uses: ./.github/workflows/win10.yml
+    secrets: inherit
