@@ -86,8 +86,8 @@ unix:!mac{
 }
 
 #change to your libav or ffmpeg lib
-INCLUDEPATH += $$PWD/../qmmp_all/qmmp/extra/gcc/libffmpeg/include
-LIBS += -L$$PWD/../qmmp_all/qmmp/extra/gcc/libffmpeg/lib -lavcodec -lavformat -lavutil -lswresample
+INCLUDEPATH += $$PWD/contrib/include
+LIBS += -L$$PWD/contrib/lib -lavcodec -lavformat -lavutil -lswresample
 
 SOURCES += \
     src/main.cpp \
