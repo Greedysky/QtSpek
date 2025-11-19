@@ -6,14 +6,18 @@ on: workflow_call
 
 env:
   TTK_MODULE: QtSpek
-  TTK_VERSTION: 0.8.5
+  TTK_VERSION: 0.8.5
 
 jobs:
   build:
     name: Build on Qt5
     strategy:
       matrix:
+        ffmpeg: [ffmpeg3]
         os: [ubuntu-22.04]
+        include:
+          - ffmpeg: ffmpeg3
+            ffmpeg_version: 3.4.14
 
     env:
       QT_VERSION: 5.9.9
@@ -55,9 +59,9 @@ jobs:
 
       - name: Build library for libffmpeg
         run: |
-          wget https://ffmpeg.org/releases/ffmpeg-3.4.14.tar.gz -O ffmpeg.tar.gz
+          wget https://ffmpeg.org/releases/ffmpeg-${{matrix.ffmpeg_version}}.tar.gz -O ffmpeg.tar.gz
           tar -xvf ffmpeg.tar.gz
-          cd ffmpeg-3.4.14
+          cd ffmpeg-${{matrix.ffmpeg_version}}
           # fix operand type mismatch for `shr'
           wget https://raw.githubusercontent.com/FFmpeg/FFmpeg/refs/heads/master/libavcodec/x86/mathops.h -O libavcodec/x86/mathops.h
           export PKG_CONFIG_PATH=${{env.INSTALL_PATH}}/lib/pkgconfig:$PKG_CONFIG_PATH
@@ -89,7 +93,7 @@ jobs:
           cp -r utils/deploy ${{env.TTK_MODULE}}
           cp -r utils/deploy/share/metainfo ${{env.TTK_MODULE}}/share
           # add portable binary package
-          7z a ${{env.TTK_MODULE}}-${{env.TTK_VERSTION}}-linux-x64.7z ${{env.TTK_MODULE}}
+          7z a ${{env.TTK_MODULE}}-${{env.TTK_VERSION}}-linux-x64.7z ${{env.TTK_MODULE}}
         working-directory: ${{github.workspace}}
 
       - name: Build appimage package
@@ -116,15 +120,15 @@ jobs:
           cd ..
           # add appimage binary package
           linuxdeploy-plugin-appimage-x86_64.AppImage --appdir=${{env.TTK_MODULE}}
-          mv *.AppImage ${{env.TTK_MODULE}}-${{env.TTK_VERSTION}}-linux-x64.AppImage
+          mv *.AppImage ${{env.TTK_MODULE}}-${{env.TTK_VERSION}}-linux-x64.AppImage
         working-directory: ${{github.workspace}}
 
       - name: Archive artifacts
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{env.TTK_VERSTION}}
+          tag_name: ${{env.TTK_VERSION}}
           token: ${{secrets.GITHUB_TOKEN}}
           generate_release_notes: false
           files: |
-            ${{github.workspace}}/${{env.TTK_MODULE}}-${{env.TTK_VERSTION}}-linux-x64.7z
-            ${{github.workspace}}/${{env.TTK_MODULE}}-${{env.TTK_VERSTION}}-linux-x64.AppImage
+            ${{github.workspace}}/${{env.TTK_MODULE}}-${{env.TTK_VERSION}}-linux-x64.7z
+            ${{github.workspace}}/${{env.TTK_MODULE}}-${{env.TTK_VERSION}}-linux-x64.AppImage
