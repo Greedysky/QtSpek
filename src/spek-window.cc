@@ -154,7 +154,7 @@ void SpekWindow::aboutClicked()
     text += "\n";
     text += "Version " PACKAGE_VERSION;
     text += "\n\n";
-    text += tr("Copyright (c) 2010-2013 Alexander Kojevnikov and contributors");
+    text += tr("Copyright (c) 2010-2023 Alexander Kojevnikov and contributors");
     text += "\n";
     text += "Spek - Acoustic Spectrum Analyser";
     text += "\n\n";
@@ -177,6 +177,9 @@ void SpekWindow::aboutClicked()
     text += "\n\n";
     text += "Graphics art by ";
     text += "Olga Vasylevska";
+    text += "\n";
+    text += "Rebuild with Qt by ";
+    text += "Greedysky";
     text += "\n\n";
     text += tr("translator-credits");
     text += "\n";
