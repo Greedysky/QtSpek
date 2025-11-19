@@ -177,7 +177,7 @@ void SpekWindow::aboutClicked()
     text += "\n\n";
     text += "Graphics art by ";
     text += "Olga Vasylevska";
-    text += "\n";
+    text += "\n\n";
     text += "Rebuild with Qt by ";
     text += "Greedysky";
     text += "\n\n";

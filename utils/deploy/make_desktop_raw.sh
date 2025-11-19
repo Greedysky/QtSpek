@@ -7,7 +7,7 @@ execpath="$3"
 echo -n "[Desktop Entry]
 Type=Application
 Version=1.0
-Name=Spek
+Name=QtSpek
 GenericName=Spectrum Analyser
 Comment=Acoustic spectrum analyser
 Comment[zh_CN]=声谱分析仪

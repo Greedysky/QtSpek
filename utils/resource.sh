@@ -7,11 +7,11 @@ output="$2"
 mkdir -p "${output}"
 
 #copy
-cp -rv "${source}/spek.sh" "${output}/spek.sh"
+cp -rv "${source}/QtSpek.sh" "${output}/QtSpek.sh"
 cp -rv "${source}/TTKRoutine.sh" "${output}/TTKRoutine.sh"
 cp -rv "${source}/TTKRoutineCopy.sh" "${output}/TTKRoutineCopy.sh"
 
 #chmod
-chmod +x "${output}/spek.sh"
+chmod +x "${output}/QtSpek.sh"
 chmod +x "${output}/TTKRoutine.sh"
 chmod +x "${output}/TTKRoutineCopy.sh"

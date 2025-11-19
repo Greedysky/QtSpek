@@ -25,8 +25,8 @@ for /L %%n in (0,1,13) do (
 
 "%base%\makecert.exe" -a sha512 -r -n "CN=Greedysky Studio" -b 01/01/2016 -e 12/31/2026 -sv %temp%\CbipSetupKey.pvk %temp%\CbipSetupKey.cer
 "%base%\cert2spc.exe" %temp%\CbipSetupKey.cer %temp%\CbipSetupKey.spc
-"%base%\pvk2pfx.exe" -pvk %temp%\CbipSetupKey.pvk -spc %temp%\CbipSetupKey.spc -f -pfx %userprofile%\Desktop\spek.pfx
-"%base%\signtool.exe" sign /f %userprofile%\Desktop\spek.pfx  /t "http://time.certum.pl/" /d "spek" %1
+"%base%\pvk2pfx.exe" -pvk %temp%\CbipSetupKey.pvk -spc %temp%\CbipSetupKey.spc -f -pfx %userprofile%\Desktop\QtSpek.pfx
+"%base%\signtool.exe" sign /f %userprofile%\Desktop\QtSpek.pfx  /t "http://time.certum.pl/" /d "QtSpek" %1
 
 del %temp%\CbipSetupKey.* >nul 2>nul
-del %userprofile%\Desktop\spek.pfx >nul 2>nul
+del %userprofile%\Desktop\QtSpek.pfx >nul 2>nul

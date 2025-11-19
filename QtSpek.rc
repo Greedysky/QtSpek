@@ -27,12 +27,12 @@ BEGIN
         BLOCK "080404b0"
             BEGIN
                 VALUE "CompanyName", TTK_RC_COMPANY
-                VALUE "FileDescription", "spek"
+                VALUE "FileDescription", "QtSpek"
                 VALUE "FileVersion", TTK_RC_PRODUCTVERSION
-                VALUE "InternalName", "spek.exe"
+                VALUE "InternalName", "QtSpek.exe"
                 VALUE "LegalCopyright", TTK_RC_COPYRIGHT
-                VALUE "OriginalFilename", "spek.exe"
-                VALUE "ProductName", "spek"
+                VALUE "OriginalFilename", "QtSpek.exe"
+                VALUE "ProductName", "QtSpek"
                 VALUE "ProductVersion", TTK_RC_PRODUCTVERSION
             END
     END

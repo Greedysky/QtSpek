@@ -16,8 +16,8 @@ fi
 
 packpath=${dirpath}/QtSpek.desktop
 userpath=${homepath}/.local/share/applications
-iconpath="${dirpath}/share/pixmaps/spek.png"
-execpath="${dirpath}/../spek.sh"
+iconpath="${dirpath}/share/pixmaps/qtspek.png"
+execpath="${dirpath}/../QtSpek.sh"
 
 sh ${dirpath}/make_desktop_raw.sh ${packpath} ${iconpath} ${execpath}
 

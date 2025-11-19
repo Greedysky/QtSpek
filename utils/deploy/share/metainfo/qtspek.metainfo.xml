@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-    <id>com.greedysky.Spek</id>
+    <id>com.greedysky.QtSpek</id>
     <metadata_license>CC0-1.0</metadata_license>
     <project_license>GPL-3.0</project_license>
-    <name>Spek</name>
+    <name>QtSpek</name>
     <summary>View spectrograms of your audio files</summary>
     <description>
         <p>Spek is an acoustic spectrum analyser written in C and C++. It uses FFmpeg libraries for audio decoding and wxWidgets for the GUI.</p>

@@ -25,7 +25,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 DESTDIR = $$OUT_PWD/bin
 TEMPLATE = app
-TARGET = spek
+TARGET = QtSpek
 
 ##find translation
 unix:exists($$[QT_INSTALL_BINS]/lrelease){

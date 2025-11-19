@@ -72,9 +72,9 @@ jobs:
         shell: msys2 {0}
         run: |
           curl -L https://ftp.osuosl.org/pub/xiph/releases/speex/speex-1.2.1.tar.gz -o speex.tar.gz
-          tar -xvf ffmpeg.tar.gz
+          tar -xvf speex.tar.gz
           cd speex-1.2.1
-          ./autogen.sh
+          export PATH=${{env.UNIX_MINGW_PATH}}:$PATH
           ./configure --prefix=${{env.INSTALL_PATH}} CFLAGS="-fPIC -O3" CXXFLAGS="-fPIC -O3" --enable-static --disable-shared
           make -j2 && make install
         working-directory: ${{runner.workspace}}
@@ -109,14 +109,18 @@ jobs:
           cp contrib/bin/avutil-55.dll ${{env.TTK_MODULE}}
           cp contrib/bin/swresample-2.dll ${{env.TTK_MODULE}}
           # add dependency libraries and so on
-          windeployqt ${{env.TTK_MODULE}}/spek.exe
+          windeployqt ${{env.TTK_MODULE}}/QtSpek.exe
           # remove useless library dependency
           ls -Filter "*.a" -Recurse | Remove-Item -Force
           rm ${{env.TTK_MODULE}}/translations -Recurse
           # add install resource
-          mkdir share doc
-          cp CREDITS.md LICENSE README.md utils/resource/LICENSE.QT-LICENSE-AGREEMENT doc
-          cp utils/resource/qicon.dll .
+          mkdir ${{env.TTK_MODULE}}/share
+          mkdir ${{env.TTK_MODULE}}/doc
+          cp CREDITS.md ${{env.TTK_MODULE}}/doc
+          cp LICENSE ${{env.TTK_MODULE}}/doc
+          cp README.md ${{env.TTK_MODULE}}/doc
+          cp utils/resource/LICENSE.QT-LICENSE-AGREEMENT ${{env.TTK_MODULE}}/doc
+          cp utils/resource/qicon.dll ${{env.TTK_MODULE}}
           # add portable binary package
           7z a ${{env.TTK_MODULE}}-${{env.TTK_VERSTION}}-win7-${{matrix.target}}.7z ${{env.TTK_MODULE}}
         working-directory: ${{github.workspace}}

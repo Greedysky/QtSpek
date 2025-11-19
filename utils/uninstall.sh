@@ -8,4 +8,4 @@ else
 fi
 
 rm -rf /opt/QtSpek
-rm -f ${homepath}/.local/share/applications/spek.desktop
+rm -f ${homepath}/.local/share/applications/QtSpek.desktop
