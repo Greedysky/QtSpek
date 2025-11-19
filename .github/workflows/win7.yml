@@ -20,9 +20,11 @@ jobs:
           - arch: 32
             target: x86
             collection: libgcc_s_dw2-1
+
           - arch: 64
             target: x64
             collection: libgcc_s_seh-1
+
           - ffmpeg: ffmpeg3
             ffmpeg_version: 3.4.14
             avcodec: 57

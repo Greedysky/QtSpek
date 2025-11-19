@@ -10,17 +10,28 @@ env:
 
 jobs:
   build:
-    name: Build on Qt5
+    name: Build on Qt${{matrix.qt_major}}(${{matrix.os}})
     strategy:
       matrix:
+        qt: [qt5, qt6]
         ffmpeg: [ffmpeg3]
         os: [ubuntu-22.04]
         include:
           - ffmpeg: ffmpeg3
             ffmpeg_version: 3.4.14
 
+          - qt: qt5
+            qt_major: 5
+            qt_version: 5.9.9
+            qt_modules:
+
+          - qt: qt6
+            qt_major: 6
+            qt_version: 6.5.3
+            qt_modules: qt5compat
+
     env:
-      QT_VERSION: 5.9.9
+      QT_VERSION: ${{matrix.qt_version}}
       INSTALL_PATH: /home/runner/work/QtSpek/QtSpek/contrib
 
     runs-on: ${{matrix.os}}
@@ -38,6 +49,7 @@ jobs:
         with:
           version: ${{env.QT_VERSION}}
           target: desktop
+          modules: ${{matrix.qt_modules}}
           cache: 'true'
 
       - name: Install linuxdeploy
@@ -93,7 +105,7 @@ jobs:
           cp -r utils/deploy ${{env.TTK_MODULE}}
           cp -r utils/deploy/share/metainfo ${{env.TTK_MODULE}}/share
           # add portable binary package
-          7z a ${{env.TTK_MODULE}}-${{env.TTK_VERSION}}-linux-x64.7z ${{env.TTK_MODULE}}
+          7z a ${{env.TTK_MODULE}}-${{env.TTK_VERSION}}-linux-${{matrix.qt}}-x64.7z ${{env.TTK_MODULE}}
         working-directory: ${{github.workspace}}
 
       - name: Build appimage package
@@ -120,7 +132,7 @@ jobs:
           cd ..
           # add appimage binary package
           linuxdeploy-plugin-appimage-x86_64.AppImage --appdir=${{env.TTK_MODULE}}
-          mv *.AppImage ${{env.TTK_MODULE}}-${{env.TTK_VERSION}}-linux-x64.AppImage
+          mv ${{env.TTK_MODULE}}*.AppImage ${{env.TTK_MODULE}}-${{env.TTK_VERSION}}-linux-${{matrix.qt}}-x64.AppImage
         working-directory: ${{github.workspace}}
 
       - name: Archive artifacts
@@ -130,5 +142,5 @@ jobs:
           token: ${{secrets.GITHUB_TOKEN}}
           generate_release_notes: false
           files: |
-            ${{github.workspace}}/${{env.TTK_MODULE}}-${{env.TTK_VERSION}}-linux-x64.7z
-            ${{github.workspace}}/${{env.TTK_MODULE}}-${{env.TTK_VERSION}}-linux-x64.AppImage
+            ${{github.workspace}}/${{env.TTK_MODULE}}-${{env.TTK_VERSION}}-linux-${{matrix.qt}}-x64.7z
+            ${{github.workspace}}/${{env.TTK_MODULE}}-${{env.TTK_VERSION}}-linux-${{matrix.qt}}-x64.AppImage
