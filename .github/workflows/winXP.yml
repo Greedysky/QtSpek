@@ -102,6 +102,14 @@ jobs:
       - name: Build package
         run: |
           mv bin ${{env.TTK_MODULE}}
+          # add install resource
+          mkdir ${{env.TTK_MODULE}}/share
+          mkdir ${{env.TTK_MODULE}}/doc
+          cp CREDITS.md ${{env.TTK_MODULE}}/doc
+          cp LICENSE ${{env.TTK_MODULE}}/doc
+          cp README.md ${{env.TTK_MODULE}}/doc
+          cp utils/resource/LICENSE.QT-LICENSE-AGREEMENT ${{env.TTK_MODULE}}/doc
+          cp utils/resource/qicon.dll ${{env.TTK_MODULE}}
           # copy ffmpeg libraries
           cp contrib/bin/avcodec-${{matrix.avcodec}}.dll ${{env.TTK_MODULE}}
           cp contrib/bin/avformat-${{matrix.avformat}}.dll ${{env.TTK_MODULE}}
@@ -116,14 +124,6 @@ jobs:
           cp ${{env.WIN_MINGW_PATH}}/libwinpthread-1.dll ${{env.TTK_MODULE}}
           # remove useless library dependency
           ls -Filter "*.a" -Recurse | Remove-Item -Force
-          # add install resource
-          mkdir ${{env.TTK_MODULE}}/share
-          mkdir ${{env.TTK_MODULE}}/doc
-          cp CREDITS.md ${{env.TTK_MODULE}}/doc
-          cp LICENSE ${{env.TTK_MODULE}}/doc
-          cp README.md ${{env.TTK_MODULE}}/doc
-          cp utils/resource/LICENSE.QT-LICENSE-AGREEMENT ${{env.TTK_MODULE}}/doc
-          cp utils/resource/qicon.dll ${{env.TTK_MODULE}}
           # add portable binary package
           7z a ${{env.TTK_MODULE}}-${{env.TTK_VERSION}}-winXP-x86.7z ${{env.TTK_MODULE}}
         working-directory: ${{github.workspace}}

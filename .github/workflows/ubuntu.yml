@@ -23,12 +23,10 @@ jobs:
           - qt: qt5
             qt_major: 5
             qt_version: 5.9.9
-            qt_modules:
 
           - qt: qt6
             qt_major: 6
             qt_version: 6.5.3
-            qt_modules: qt5compat
 
     env:
       QT_VERSION: ${{matrix.qt_version}}
@@ -90,6 +88,12 @@ jobs:
       - name: Build package
         run: |
           mv bin ${{env.TTK_MODULE}}
+          # add install resource
+          mkdir ${{env.TTK_MODULE}}/share ${{env.TTK_MODULE}}/doc
+          cp CREDITS.md LICENSE README.md utils/resource/LICENSE.QT-LICENSE-AGREEMENT ${{env.TTK_MODULE}}/doc
+          cp utils/install.sh utils/uninstall.sh ${{env.TTK_MODULE}}
+          cp -r utils/deploy ${{env.TTK_MODULE}}
+          cp -r utils/deploy/share/metainfo ${{env.TTK_MODULE}}/share
           cd ${{env.TTK_MODULE}}
           export LD_LIBRARY_PATH=${{github.workspace}}/contrib/lib:$LD_LIBRARY_PATH
           # add dependency libraries and so on
@@ -97,12 +101,6 @@ jobs:
           mv image/usr/lib image/usr/plugins image/usr/bin/qt.conf .
           rm -rf image
           cd ..
-          # add install resource
-          mkdir ${{env.TTK_MODULE}}/share ${{env.TTK_MODULE}}/doc
-          cp CREDITS.md LICENSE README.md utils/resource/LICENSE.QT-LICENSE-AGREEMENT ${{env.TTK_MODULE}}/doc
-          cp utils/install.sh utils/uninstall.sh ${{env.TTK_MODULE}}
-          cp -r utils/deploy ${{env.TTK_MODULE}}
-          cp -r utils/deploy/share/metainfo ${{env.TTK_MODULE}}/share
           # add portable binary package
           7z a ${{env.TTK_MODULE}}-${{env.TTK_VERSION}}-${{matrix.os}}-${{matrix.qt}}-x64.7z ${{env.TTK_MODULE}}
         working-directory: ${{github.workspace}}
