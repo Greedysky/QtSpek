@@ -44,6 +44,11 @@ static const char *audio_extensions[] = {
     NULL
 };
 
+#if QT_VERSION >= QT_VERSION_CHECK(6,3,0)
+#  define QtAddAction(p, a, b, c, d) p->addAction(a, d, b, c)
+#else
+#  define QtAddAction(p, a, b, c, d) p->addAction(a, b, c, d)
+#endif
 
 SpekWindow::SpekWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -54,17 +59,17 @@ SpekWindow::SpekWindow(QWidget *parent)
 
     QMenuBar *menuBar = this->menuBar();
     QMenu *menuFile = menuBar->addMenu(tr("&File"));
-    menuFile->addAction(tr("Open(O)..."), this, SLOT(openClicked()), QKeySequence("Ctrl+O"));
-    menuFile->addAction(tr("Save(S)"), this, SLOT(saveClicked()), QKeySequence("Ctrl+S"));
+    QtAddAction(menuFile, tr("Open(O)..."), this, SLOT(openClicked()), {"Ctrl+O"});
+    QtAddAction(menuFile, tr("Save(S)"), this, SLOT(saveClicked()), {"Ctrl+S"});
     menuFile->addSeparator();
     menuFile->addAction(tr("Quit(Q)"), this, SLOT(close()));
 
     QMenu *menuEdit = menuBar->addMenu(tr("&Edit"));
-    menuEdit->addAction(tr("Preferences"), this, SLOT(editClicked()), QKeySequence("Ctrl+E"));
+    QtAddAction(menuEdit, tr("Preferences"), this, SLOT(editClicked()), {"Ctrl+E"});
 
     QMenu *menuHelp = menuBar->addMenu(tr("&Help"));
-    menuHelp->addAction(tr("Help"), this, SLOT(helpClicked()), QKeySequence("F1"));
-    menuHelp->addAction(tr("About"), this, SLOT(aboutClicked()), QKeySequence("Shift+F1"));
+    QtAddAction(menuHelp, tr("Help"), this, SLOT(helpClicked()), {"F1"});
+    QtAddAction(menuHelp, tr("About"), this, SLOT(aboutClicked()), {"Shift+F1"});
 
     QToolBar *toolbar = new QToolBar(this);
     toolbar->setMovable(false);
