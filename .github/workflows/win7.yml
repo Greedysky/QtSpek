@@ -35,7 +35,6 @@ jobs:
     env:
       QT_VERSION: 5.15.18
       QT_ROOT_DIR: D:/a/QtSpek/Qt/5.15.18/mingw810_${{matrix.arch}}
-      QT_BIN_DIR: D:/a/QtSpek/Qt/5.15.18/mingw810_${{matrix.arch}}/bin
       WIN_MINGW_PATH: D:/a/QtSpek/mingw/bin
       UNIX_MINGW_PATH: /d/a/QtSpek/mingw/bin
       INSTALL_PATH: /d/a/QtSpek/QtSpek/contrib
@@ -50,7 +49,7 @@ jobs:
           7z x Qt.7z -oQt
           mv Qt/5.15.18-shared Qt/5.15.18
           # set environment variable
-          echo "${{env.QT_BIN_DIR}};" >> $env:GITHUB_PATH
+          echo "${{env.QT_ROOT_DIR}}/bin;" >> $env:GITHUB_PATH
         working-directory: ${{runner.workspace}}
 
       - name: Install MinGW810_${{matrix.arch}}
