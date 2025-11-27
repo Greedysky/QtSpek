@@ -21,7 +21,9 @@ equals(QT_MAJOR_VERSION, 4){ #Qt4
     CONFIG += gcc
 }
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4){ #Qt5
+    QT += widgets
+}
 
 DESTDIR = $$OUT_PWD/bin
 TEMPLATE = app
