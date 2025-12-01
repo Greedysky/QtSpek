@@ -29,13 +29,13 @@ DESTDIR = $$OUT_PWD/bin
 TEMPLATE = app
 TARGET = QtSpek
 
-##find translation
-unix:exists($$[QT_INSTALL_BINS]/lrelease){
-    LRELEASE_EXECUTABLE = $$[QT_INSTALL_BINS]/lrelease
-}
-
-unix:exists($$[QT_INSTALL_BINS]/lrelease-qt5){
-    LRELEASE_EXECUTABLE = $$[QT_INSTALL_BINS]/lrelease-qt5
+##find translation module
+unix{
+    exists($$[QT_INSTALL_BINS]/lrelease){
+        LRELEASE_EXECUTABLE = $$[QT_INSTALL_BINS]/lrelease
+    }else:exists($$[QT_INSTALL_BINS]/lrelease-qt$$QT_MAJOR_VERSION){
+        LRELEASE_EXECUTABLE = $$[QT_INSTALL_BINS]/lrelease-qt$$QT_MAJOR_VERSION
+    }
 }
 
 win32:exists($$[QT_INSTALL_BINS]/lrelease.exe){
