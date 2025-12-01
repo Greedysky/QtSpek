@@ -8,3 +8,9 @@
 #else
 #  define QtFontWidth(p, t) p.width(t)
 #endif
+
+#if QT_VERSION >= QT_VERSION_CHECK(6,3,0)
+#  define QtAddAction(p, a, b, c, d) p->addAction(a, d, b, c)
+#else
+#  define QtAddAction(p, a, b, c, d) p->addAction(a, b, c, d)
+#endif

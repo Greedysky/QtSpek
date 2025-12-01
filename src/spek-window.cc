@@ -44,11 +44,6 @@ static const char *audio_extensions[] = {
     NULL
 };
 
-#if QT_VERSION >= QT_VERSION_CHECK(6,3,0)
-#  define QtAddAction(p, a, b, c, d) p->addAction(a, d, b, c)
-#else
-#  define QtAddAction(p, a, b, c, d) p->addAction(a, b, c, d)
-#endif
 
 SpekWindow::SpekWindow(QWidget *parent)
     : QMainWindow(parent)
