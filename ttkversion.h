@@ -13,7 +13,7 @@
 #define TTK_RC_FILEVERSION      TTK_MAJOR_VERSION, TTK_MINOR_VERSION, TTK_PATCH_VERSION, 0
 #define TTK_RC_PRODUCTVERSION   TTK_VERSION_STR
 #define TTK_RC_COMPANY          "Greedysky Studio"
-#define TTK_RC_COPYRIGHT        "Copyright (C) 2025 Greedysky Studio"
+#define TTK_RC_COPYRIGHT        "Copyright (C) 2026 Greedysky Studio"
 
 #define TTK_VERSION_CHECK(major, middle, minor, patch)        ((major<<12)|(middle<<8)|(minor<<4)|(patch))
 #define TTK_VERSION_CHECK_STR(major, middle, minor, patch)    TTK_VERSION_CHECK_STR_I(major, middle, minor, patch)
