@@ -21,7 +21,7 @@ Priority: optional
 Architecture: amd64
 Installed-Size: $(du -s ${packname} | sed -e 's/[ \t].*//')
 Maintainer: Matteo Bini <matteobin@tiepi.it>
-Homepage: http://spek.cc/
+Homepage: https://github.com/Greedysky/QtSpek
 Description: Acoustic spectrum analyser
  Spek helps to analyse your audio files by showing their spectrogram.
  It supports all popular lossy and lossless audio file formats.\n" > ${datapath}/control

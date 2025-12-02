@@ -102,13 +102,14 @@ jobs:
         run: |
           mv bin ${{env.TTK_MODULE}}
           # add install resource
-          mkdir ${{env.TTK_MODULE}}/share
           mkdir ${{env.TTK_MODULE}}/doc
-          cp CREDITS.md ${{env.TTK_MODULE}}/doc
+          cp CREDITS.Spek.md ${{env.TTK_MODULE}}/doc
+          cp CREDITS.QtSpek.md ${{env.TTK_MODULE}}/doc
           cp LICENSE ${{env.TTK_MODULE}}/doc
           cp README.md ${{env.TTK_MODULE}}/doc
           cp utils/resource/LICENSE.QT-LICENSE-AGREEMENT ${{env.TTK_MODULE}}/doc
           cp utils/resource/qicon.dll ${{env.TTK_MODULE}}
+          cp utils/resource/README.txt ${{env.TTK_MODULE}}
           # copy ffmpeg libraries
           cp contrib/bin/avcodec-${{matrix.avcodec}}.dll ${{env.TTK_MODULE}}
           cp contrib/bin/avformat-${{matrix.avformat}}.dll ${{env.TTK_MODULE}}

@@ -1,0 +1,10 @@
+声谱分析仪
+QtSpek
+
+Offical web page: https://github.com/Greedysky/QtSpek
+Bug tracker: https://github.com/Greedysky/QtSpek/issues
+Maintainer: Greedysky <greedysky@163.com>
+License: GNU General Public License Version 3 for modules
+
+本软件仅供学习交流，不可用于商业用途，否则后果自负
+Copyright(C) 2015 - 2026 Greedysky All Rights Reserved

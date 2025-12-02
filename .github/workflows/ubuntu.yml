@@ -96,7 +96,8 @@ jobs:
           mv bin ${{env.TTK_MODULE}}
           # add install resource
           mkdir ${{env.TTK_MODULE}}/share ${{env.TTK_MODULE}}/doc
-          cp CREDITS.md LICENSE README.md utils/resource/LICENSE.QT-LICENSE-AGREEMENT ${{env.TTK_MODULE}}/doc
+          cp LICENSE *.md utils/resource/LICENSE.QT-LICENSE-AGREEMENT ${{env.TTK_MODULE}}/doc
+          cp utils/resource/README.txt ${{env.TTK_MODULE}}
           cp utils/install.sh utils/uninstall.sh ${{env.TTK_MODULE}}
           cp -r utils/deploy ${{env.TTK_MODULE}}
           cp -r utils/deploy/share/metainfo ${{env.TTK_MODULE}}/share
