@@ -146,8 +146,10 @@ void SpekSpectrogram::keyPressEvent(QKeyEvent *event)
 void SpekSpectrogram::paintEvent(QPaintEvent *event)
 {
     QWidget::paintEvent(event);
-    QPainter p(this);
-    paint(&p);
+
+    QPainter painter(this);
+    painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);
+    paint(&painter);
 }
 
 void SpekSpectrogram::resizeEvent(QResizeEvent *event)
