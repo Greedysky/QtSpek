@@ -7,5 +7,6 @@ else
   homepath=/home/${username}
 fi
 
-rm -rf /opt/QtSpek
+rm -rf /opt/ttk/QtSpek
 rm -f ${homepath}/.local/share/applications/QtSpek.desktop
+rm -f ${homepath}/.local/share/metainfo/qtspek.metainfo.xml
