@@ -61,7 +61,9 @@ jobs:
           plugins: qt appimage
 
       - name: Install dependencies
-        run: sudo apt install libfuse2 p7zip-full
+        run: |
+          sudo apt update
+          sudo apt install libfuse2 p7zip-full
 
       - name: Build library for libspeex
         run: |
