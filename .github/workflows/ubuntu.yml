@@ -15,7 +15,7 @@ jobs:
       matrix:
         qt: [qt5, qt6]
         ffmpeg: [ffmpeg3]
-        os: [ubuntu-22.04, ubuntu-24.04]
+        os: [ubuntu-22.04, ubuntu-24.04, ubuntu-26.04]
         include:
           - ffmpeg: ffmpeg3
             ffmpeg_version: 3.4.14
